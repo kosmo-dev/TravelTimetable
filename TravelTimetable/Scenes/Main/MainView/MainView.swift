@@ -16,12 +16,16 @@ struct MainView: View {
     ]
 
     @State private var cityCelectionIsPresented = false
+    @State private var routeIsPresented = false
 
     var body: some View {
         NavigationView {
             mainView
                 .fullScreenCover(isPresented: $cityCelectionIsPresented, content: {
                     CitySelectionView(modalViewIsPresented: $cityCelectionIsPresented)
+                })
+                .fullScreenCover(isPresented: $routeIsPresented, content: {
+                    RouteListView()
                 })
         }
     }
@@ -113,7 +117,7 @@ struct MainView: View {
 
     var searchButton: some View {
         Button(action: {
-
+            routeIsPresented = true
         }, label: {
             Text("Найти")
                 .font(.system(size: 17, weight: .bold))

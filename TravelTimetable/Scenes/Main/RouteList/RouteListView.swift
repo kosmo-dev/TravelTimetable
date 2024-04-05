@@ -14,18 +14,20 @@ struct RouteListView: View {
     var routes: [Route] = RoutesMock.mock
 
     var body: some View {
-        mainView
-            .navigationBarBackButtonHidden(true)
-            .toolbar(content: {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                        Image(systemName: "chevron.left")
-                            .foregroundStyle(Color.ypBlackDL)
-                    })
-                }
-            })
+        NavigationView {
+            mainView
+                .navigationBarBackButtonHidden(true)
+                .toolbar(content: {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button(action: {
+                            dismiss()
+                        }, label: {
+                            Image(systemName: "chevron.left")
+                                .foregroundStyle(Color.ypBlackDL)
+                        })
+                    }
+                })
+        }
     }
 
     var mainView: some View {
@@ -48,10 +50,11 @@ struct RouteListView: View {
     }
 
     var list: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             ForEach(routes, id: \.uid) { route in
                 listRow(route)
             }
+            Spacer(minLength: 100)
         }
     }
 
@@ -123,9 +126,9 @@ struct RouteListView: View {
     }
 
     var filterButton: some View {
-        Button(action: {
-
-        }, label: {
+        NavigationLink {
+            FilterView()
+        } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
                     .foregroundStyle(Color.ypBlue)
@@ -136,7 +139,7 @@ struct RouteListView: View {
                     .foregroundStyle(Color.white)
                     .padding(.vertical, 20)
             }
-        })
+        }
     }
 }
 

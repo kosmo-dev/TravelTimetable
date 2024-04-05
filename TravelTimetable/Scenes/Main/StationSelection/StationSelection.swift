@@ -30,7 +30,7 @@ struct StationSelection: View {
                     })
                 }
             })
-            .searchable(text: $searchText, prompt: "Введите запрос")
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Введите запрос")
     }
     
     var mainView: some View {
