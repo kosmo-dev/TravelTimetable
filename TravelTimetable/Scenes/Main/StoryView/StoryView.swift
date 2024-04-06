@@ -22,14 +22,12 @@ struct StoryView: View {
         ZStack {
             Color.ypBlack
             VStack {
-//                Spacer()
                 Image(story.images[0])
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 40))
                 Spacer()
             }
-//            .padding(.vertical)
 
             VStack(alignment: .leading) {
                 HStack {
@@ -37,12 +35,12 @@ struct StoryView: View {
                     Button(action: {
                         dismiss()
                     }, label: {
-                            Image(systemName: "x.circle.fill")
-                            .font(.system(size: 30))
-                            .foregroundStyle(.white, .ypBlack)
+                            Image("icClose")
+                            .resizable()
+                            .frame(width: 30, height: 30)
                     })
                 }
-                .padding(.top, 60)
+                .padding(.top, 50)
                 .padding(.trailing, 12)
                 Spacer()
                 Text(story.title)
