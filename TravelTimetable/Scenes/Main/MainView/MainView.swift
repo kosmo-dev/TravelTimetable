@@ -8,24 +8,32 @@
 import SwiftUI
 
 struct MainView: View {
-    let stories: [Story] = [
-        Story(id: "1", image: "1", text: "Story 1"),
-        Story(id: "2", image: "2", text: "Story 2"),
-        Story(id: "3", image: "3", text: "Story 3"),
-        Story(id: "4", image: "4", text: "Story 4"),
-    ]
+    let stories: [Story] = Story.mock
 
     @State private var cityCelectionIsPresented = false
     @State private var routeIsPresented = false
+    @State private var storyIsPresented = false
+    @State var choosedStory: Story?
+    @State var backgroundColor: Color = .ypWhiteDL
 
     var body: some View {
         NavigationView {
             mainView
+                .background(backgroundColor)
                 .fullScreenCover(isPresented: $cityCelectionIsPresented, content: {
                     CitySelectionView(modalViewIsPresented: $cityCelectionIsPresented)
                 })
                 .fullScreenCover(isPresented: $routeIsPresented, content: {
                     RouteListView()
+                })
+                .sheet(isPresented: $storyIsPresented, onDismiss: {
+                    withAnimation {
+                        backgroundColor = .ypWhiteDL
+                    }
+                }, content: {
+                    if let choosedStory {
+                        StoryView(story: choosedStory)
+                    }
                 })
         }
     }
@@ -48,6 +56,13 @@ struct MainView: View {
                 Spacer(minLength: 16)
                 ForEach(stories) { story in
                     storyView(story: story)
+                        .onTapGesture {
+                            choosedStory = story
+                            storyIsPresented = true
+                            withAnimation {
+                                backgroundColor = .black
+                            }
+                        }
                 }
             }
         }
@@ -55,14 +70,24 @@ struct MainView: View {
     }
 
     func storyView(story: Story) -> some View {
-        RoundedRectangle(cornerRadius: 16)
-            .fill(Color.yellow)
+        Image(story.previewImage)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
             .overlay {
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.ypBlue, lineWidth: 4)
+                ZStack(alignment: .bottom) {
+                    HStack {
+                        Text(story.title)
+                            .font(.system(size: 12))
+                            .lineLimit(3)
+                            .foregroundStyle(.white)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.bottom, 12)
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.ypBlue, lineWidth: 4)
+                }
             }
-            .frame(width: 92, height: 140)
-    }
+        .frame(width: 92, height: 140)    }
 
     var searchView: some View {
         ZStack {
@@ -103,13 +128,7 @@ struct MainView: View {
     }
 
     var changeDirectionButton: some View {
-        Circle()
-            .foregroundStyle(Color.white)
-            .frame(width: 36)
-            .overlay {
-                Image(systemName: "arrow.left.arrow.right")
-                    .foregroundStyle(Color.ypBlue)
-            }
+        Image("icСhange")
             .padding(.trailing)
     }
 

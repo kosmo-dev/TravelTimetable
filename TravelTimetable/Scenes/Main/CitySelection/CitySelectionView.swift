@@ -17,6 +17,7 @@ struct CitySelectionView: View {
     var body: some View {
         NavigationView {
             mainView
+                .background(.ypWhiteDL)
                 .navigationTitle("Выбор города")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {

@@ -25,6 +25,7 @@
 		3DBB55662B9D09B9005CFAD0 /* openapi.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 3DBB55652B9D09B9005CFAD0 /* openapi.yaml */; };
 		3DF3CAAF2B97C5C000F27668 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3CAAE2B97C5C000F27668 /* NetworkService.swift */; };
 		3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */; };
+		3DF8D74E2BC16D6300099CCC /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D74D2BC16D6300099CCC /* StoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		3DBB55652B9D09B9005CFAD0 /* openapi.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = openapi.yaml; sourceTree = "<group>"; };
 		3DF3CAAE2B97C5C000F27668 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierInfoView.swift; sourceTree = "<group>"; };
+		3DF8D74D2BC16D6300099CCC /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				3D20C9D42BC088C600B7353B /* MainView */,
+				3DF8D7482BC16D3800099CCC /* StoryView */,
 				3D20C9D82BC0898A00B7353B /* CitySelection */,
 				3D20C9D92BC08A5300B7353B /* StationSelection */,
 				3D20C9DC2BC0934200B7353B /* RouteList */,
@@ -209,6 +212,14 @@
 				3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */,
 			);
 			path = CarrierInfo;
+			sourceTree = "<group>";
+		};
+		3DF8D7482BC16D3800099CCC /* StoryView */ = {
+			isa = PBXGroup;
+			children = (
+				3DF8D74D2BC16D6300099CCC /* StoryView.swift */,
+			);
+			path = StoryView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,6 +313,7 @@
 				3D20C9D72BC0898400B7353B /* CitySelectionView.swift in Sources */,
 				3D2C64792B91145E0066FBF6 /* TravelTimetableApp.swift in Sources */,
 				3D20C9E22BC0937700B7353B /* RouteListView.swift in Sources */,
+				3DF8D74E2BC16D6300099CCC /* StoryView.swift in Sources */,
 				3DBB55602B9D0340005CFAD0 /* HTTPBody+Extension.swift in Sources */,
 				3DF3CAAF2B97C5C000F27668 /* NetworkService.swift in Sources */,
 				3D20C9DB2BC08A6900B7353B /* StationSelection.swift in Sources */,

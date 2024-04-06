@@ -13,6 +13,7 @@ struct CarrierInfoView: View {
 
     var body: some View {
         mainView
+            .background(.ypWhiteDL)
             .navigationBarBackButtonHidden(true)
             .toolbar(content: {
                 ToolbarItem(placement: .cancellationAction) {

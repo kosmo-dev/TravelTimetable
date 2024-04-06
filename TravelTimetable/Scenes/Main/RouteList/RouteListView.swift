@@ -16,6 +16,7 @@ struct RouteListView: View {
     var body: some View {
         NavigationView {
             mainView
+                .background(.ypWhiteDL)
                 .navigationBarBackButtonHidden(true)
                 .toolbar(content: {
                     ToolbarItem(placement: .cancellationAction) {

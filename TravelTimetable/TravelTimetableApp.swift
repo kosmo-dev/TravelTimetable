@@ -21,6 +21,7 @@ struct TravelTimetableApp: App {
                         Image(systemName: "gearshape.fill")
                     }
             }
+            .tint(.ypBlackDL)
         }
     }
 }

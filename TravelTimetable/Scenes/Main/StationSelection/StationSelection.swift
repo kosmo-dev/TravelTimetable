@@ -17,6 +17,7 @@ struct StationSelection: View {
 
     var body: some View {
         mainView
+            .background(.ypWhiteDL)
             .navigationTitle("Выбор станции")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
@@ -54,6 +55,7 @@ struct StationSelection: View {
             Image(systemName: "chevron.right")
                 .foregroundStyle(Color.ypBlackDL)
         }
+        .background(.ypWhiteDL)
         .padding(.vertical, 19)
     }
 }
