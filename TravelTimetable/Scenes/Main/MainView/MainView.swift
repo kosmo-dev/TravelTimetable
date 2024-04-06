@@ -80,7 +80,6 @@ struct MainView: View {
                             Spacer()
                         }
                         .background(.white)
-                        .frame(width: .infinity)
                         .onTapGesture {
                             cityCelectionIsPresented = true
                         }
@@ -90,7 +89,6 @@ struct MainView: View {
                             Spacer()
                         }
                         .background(.white)
-                        .frame(width: .infinity)
                         .onTapGesture {
                             cityCelectionIsPresented = true
                         }

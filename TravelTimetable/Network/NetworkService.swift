@@ -19,6 +19,8 @@ typealias StationsList = Components.Schemas.StationsList
 typealias Copyright = Components.Schemas.CopyrightInfo
 typealias CarrierSystem = Operations.getCarrierInformation.Input.Query.systemPayload
 
+typealias Carrier = Components.Schemas.Carrier
+
 protocol NetworkServiceProtocol {
     func getNearestStations(lat: Double, lng: Double, distance: Int) async throws -> NearestStations
     func getNearestSettlement(lat: Double, lng: Double) async throws -> NearestSettlement

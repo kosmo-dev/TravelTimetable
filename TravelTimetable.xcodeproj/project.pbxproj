@@ -24,6 +24,7 @@
 		3DBB55602B9D0340005CFAD0 /* HTTPBody+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB555F2B9D0340005CFAD0 /* HTTPBody+Extension.swift */; };
 		3DBB55662B9D09B9005CFAD0 /* openapi.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 3DBB55652B9D09B9005CFAD0 /* openapi.yaml */; };
 		3DF3CAAF2B97C5C000F27668 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3CAAE2B97C5C000F27668 /* NetworkService.swift */; };
+		3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		3DBB555F2B9D0340005CFAD0 /* HTTPBody+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPBody+Extension.swift"; sourceTree = "<group>"; };
 		3DBB55652B9D09B9005CFAD0 /* openapi.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = openapi.yaml; sourceTree = "<group>"; };
 		3DF3CAAE2B97C5C000F27668 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				3D20C9D92BC08A5300B7353B /* StationSelection */,
 				3D20C9DC2BC0934200B7353B /* RouteList */,
 				3D20C9E62BC09FB400B7353B /* FilterView */,
+				3DF8D7442BC1630C00099CCC /* CarrierInfo */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -198,6 +201,14 @@
 				3DBB555F2B9D0340005CFAD0 /* HTTPBody+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3DF8D7442BC1630C00099CCC /* CarrierInfo */ = {
+			isa = PBXGroup;
+			children = (
+				3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */,
+			);
+			path = CarrierInfo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,6 +296,7 @@
 				3D20C9EA2BC09FC300B7353B /* FilterView.swift in Sources */,
 				3D6DC6562BBF4985008882FE /* Story.swift in Sources */,
 				3D6DC6512BBF4330008882FE /* SettingsView.swift in Sources */,
+				3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */,
 				3D6DC64F2BBF431B008882FE /* MainView.swift in Sources */,
 				3DBB555A2B9ACF5D005CFAD0 /* Request.swift in Sources */,
 				3D20C9D72BC0898400B7353B /* CitySelectionView.swift in Sources */,

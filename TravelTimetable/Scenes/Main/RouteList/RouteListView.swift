@@ -52,7 +52,13 @@ struct RouteListView: View {
     var list: some View {
         ScrollView(showsIndicators: false) {
             ForEach(routes, id: \.uid) { route in
-                listRow(route)
+                NavigationLink {
+                    if let carrier = route.carrier {
+                        CarrierInfoView(carrier: carrier)
+                    }
+                } label: {
+                    listRow(route)
+                }
             }
             Spacer(minLength: 100)
         }
@@ -132,14 +138,18 @@ struct RouteListView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
                     .foregroundStyle(Color.ypBlue)
-                    .frame(width: .infinity, height: 60)
 
-                Text("Уточнить время")
-                    .font(.system(size: 17, weight: .bold))
-                    .foregroundStyle(Color.white)
-                    .padding(.vertical, 20)
+                HStack {
+                    Spacer()
+                    Text("Уточнить время")
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundStyle(Color.white)
+                        .padding(.vertical, 20)
+                    Spacer()
+                }
             }
         }
+        .frame(height: 60)
     }
 }
 
@@ -159,7 +169,9 @@ struct RoutesMock {
                 begin_time: "22:30"),
             carrier: Components.Schemas.Carrier(
                 logo_svg: "MockCarrierIcon",
-                title: "РЖД"
+                title: "РЖД",
+                phone: "+7 (495) 123-45-67",
+                email: "mockemail@email.ru"
             ),
             stops: [
                 Components.Schemas.Stop(
@@ -176,7 +188,9 @@ struct RoutesMock {
                 begin_time: "09:00"),
             carrier: Components.Schemas.Carrier(
                 logo_svg: "MockCarrierIcon",
-                title: "ФГК"
+                title: "ФГК",
+                phone: "+7 (495) 123-45-67",
+                email: "mockemail@email.ru"
             ),
             stops: []
         ),
@@ -189,7 +203,9 @@ struct RoutesMock {
                 begin_time: "21:00"),
             carrier: Components.Schemas.Carrier(
                 logo_svg: "MockCarrierIcon",
-                title: "Урал Логистика"
+                title: "Урал Логистика",
+                phone: "+7 (495) 123-45-67",
+                email: "mockemail@email.ru"
             ),
             stops: []
         ),
@@ -202,7 +218,9 @@ struct RoutesMock {
                 begin_time: "22:30"),
             carrier: Components.Schemas.Carrier(
                 logo_svg: "MockCarrierIcon",
-                title: "РЖД"
+                title: "РЖД",
+                phone: "+7 (495) 123-45-67",
+                email: "mockemail@email.ru"
             ),
             stops: [
                 Components.Schemas.Stop(
@@ -219,7 +237,9 @@ struct RoutesMock {
                 begin_time: "20:30"),
             carrier: Components.Schemas.Carrier(
                 logo_svg: "MockCarrierIcon",
-                title: "РЖД"
+                title: "РЖД",
+                phone: "+7 (495) 123-45-67",
+                email: "mockemail@email.ru"
             ),
             stops: []
         ),
@@ -232,7 +252,9 @@ struct RoutesMock {
                 begin_time: "12:30"),
             carrier: Components.Schemas.Carrier(
                 logo_svg: "MockCarrierIcon",
-                title: "РЖД Сапсан"
+                title: "РЖД Сапсан",
+                phone: "+7 (495) 123-45-67",
+                email: "mockemail@email.ru"
             ),
             stops: []
         )
