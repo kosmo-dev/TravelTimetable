@@ -21,6 +21,12 @@ struct TravelTimetableApp: App {
                         Image(systemName: "gearshape.fill")
                     }
             }
+            .onAppear {
+                let appearance = UITabBarAppearance()
+                appearance.configureWithOpaqueBackground()
+                appearance.backgroundColor = .ypWhiteDL
+                UITabBar.appearance().scrollEdgeAppearance = appearance
+            }
             .tint(.ypBlackDL)
         }
     }

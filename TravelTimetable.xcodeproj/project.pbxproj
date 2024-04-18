@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D1946EA2BD1AC23002AB238 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1946E92BD1AC23002AB238 /* SplashScreen.swift */; };
 		3D20C9D72BC0898400B7353B /* CitySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D20C9D62BC0898400B7353B /* CitySelectionView.swift */; };
 		3D20C9DB2BC08A6900B7353B /* StationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D20C9DA2BC08A6900B7353B /* StationSelection.swift */; };
 		3D20C9E22BC0937700B7353B /* RouteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D20C9E12BC0937700B7353B /* RouteListView.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D1946E92BD1AC23002AB238 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SplashScreen.swift; path = TravelTimetable/Scenes/SplashScreen.swift; sourceTree = SOURCE_ROOT; };
 		3D20C9D62BC0898400B7353B /* CitySelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CitySelectionView.swift; path = TravelTimetable/Scenes/Main/CitySelection/CitySelectionView.swift; sourceTree = SOURCE_ROOT; };
 		3D20C9DA2BC08A6900B7353B /* StationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationSelection.swift; sourceTree = "<group>"; };
 		3D20C9E12BC0937700B7353B /* RouteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteListView.swift; sourceTree = "<group>"; };
@@ -62,6 +64,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D1946E82BD1AC05002AB238 /* SplashScreen */ = {
+			isa = PBXGroup;
+			children = (
+				3D1946E92BD1AC23002AB238 /* SplashScreen.swift */,
+			);
+			path = SplashScreen;
+			sourceTree = "<group>";
+		};
 		3D20C9D42BC088C600B7353B /* MainView */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +162,7 @@
 		3D6DC64C2BBF42EC008882FE /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				3D1946E82BD1AC05002AB238 /* SplashScreen */,
 				3D20C9D42BC088C600B7353B /* MainView */,
 				3DF8D7482BC16D3800099CCC /* StoryView */,
 				3D20C9D82BC0898A00B7353B /* CitySelection */,
@@ -306,6 +317,7 @@
 			files = (
 				3D20C9EA2BC09FC300B7353B /* FilterView.swift in Sources */,
 				3D6DC6562BBF4985008882FE /* Story.swift in Sources */,
+				3D1946EA2BD1AC23002AB238 /* SplashScreen.swift in Sources */,
 				3D6DC6512BBF4330008882FE /* SettingsView.swift in Sources */,
 				3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */,
 				3D6DC64F2BBF431B008882FE /* MainView.swift in Sources */,
@@ -465,7 +477,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -498,7 +510,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
