@@ -11,7 +11,17 @@ import SwiftUI
 struct TravelTimetableApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView {
+                MainView()
+                    .tabItem {
+                        Image(systemName: "arrow.up.message.fill")
+                    }
+                SettingsView()
+                    .tabItem {
+                        Image(systemName: "gearshape.fill")
+                    }
+            }
+            .tint(.ypBlackDL)
         }
     }
 }
