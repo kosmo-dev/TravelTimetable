@@ -12,7 +12,7 @@ struct TravelTimetableApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-                MainView()
+                MainView(viewModel: MainViewViewModel())
                     .tabItem {
                         Image(systemName: "arrow.up.message.fill")
                     }

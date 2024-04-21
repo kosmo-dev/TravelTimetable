@@ -8,31 +8,28 @@
 import SwiftUI
 
 struct MainView: View {
-    let stories: [Story] = Story.mock
 
-    @State private var cityCelectionIsPresented = false
-    @State private var routeIsPresented = false
-    @State private var storyIsPresented = false
-    @State var choosedStory: Story?
-    @State var backgroundColor: Color = .ypWhiteDL
+    @ObservedObject var viewModel: MainViewViewModel
 
     var body: some View {
         NavigationView {
             mainView
-                .background(backgroundColor)
-                .fullScreenCover(isPresented: $cityCelectionIsPresented, content: {
-                    CitySelectionView(modalViewIsPresented: $cityCelectionIsPresented)
+                .background(viewModel.backgroundColor)
+                .fullScreenCover(isPresented: $viewModel.cityCelectionIsPresented, content: {
+                    CitySelectionView(viewModel: CitySelectionViewModel(onDismiss: {
+                        viewModel.cityCelectionIsPresented = false
+                    }))
                 })
-                .fullScreenCover(isPresented: $routeIsPresented, content: {
+                .fullScreenCover(isPresented: $viewModel.routeIsPresented, content: {
                     RouteListView()
                 })
-                .sheet(isPresented: $storyIsPresented, onDismiss: {
+                .sheet(isPresented: $viewModel.storyIsPresented, onDismiss: {
                     withAnimation {
-                        backgroundColor = .ypWhiteDL
+                        viewModel.backgroundColor = .ypWhiteDL
                     }
                 }, content: {
-                    if let choosedStory {
-                        StoryView(story: choosedStory)
+                    if let story = viewModel.choosedStory {
+                        StoryView(story: story)
                     }
                 })
         }
@@ -54,13 +51,13 @@ struct MainView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 12) {
                 Spacer(minLength: 16)
-                ForEach(stories) { story in
+                ForEach(viewModel.stories) { story in
                     storyView(story: story)
                         .onTapGesture {
-                            choosedStory = story
-                            storyIsPresented = true
+                            viewModel.choosedStory = story
+                            viewModel.storyIsPresented = true
                             withAnimation {
-                                backgroundColor = .black
+                                viewModel.backgroundColor = .black
                             }
                         }
                 }
@@ -87,7 +84,8 @@ struct MainView: View {
                         .stroke(Color.ypBlue, lineWidth: 4)
                 }
             }
-        .frame(width: 92, height: 140)    }
+            .frame(width: 92, height: 140)
+    }
 
     var searchView: some View {
         ZStack {
@@ -106,7 +104,7 @@ struct MainView: View {
                         }
                         .background(.white)
                         .onTapGesture {
-                            cityCelectionIsPresented = true
+                            viewModel.cityCelectionIsPresented = true
                         }
                         HStack {
                             Text("Куда")
@@ -115,7 +113,7 @@ struct MainView: View {
                         }
                         .background(.white)
                         .onTapGesture {
-                            cityCelectionIsPresented = true
+                            viewModel.cityCelectionIsPresented = true
                         }
                     }
                     .padding()
@@ -134,7 +132,7 @@ struct MainView: View {
 
     var searchButton: some View {
         Button(action: {
-            routeIsPresented = true
+            viewModel.routeIsPresented = true
         }, label: {
             Text("Найти")
                 .font(.system(size: 17, weight: .bold))
@@ -150,5 +148,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainView(viewModel: MainViewViewModel())
 }
