@@ -17,7 +17,7 @@ struct CitySelectionView: View {
             set: { viewModel.performSearch(text: $0) }
         )
 
-        return NavigationView {
+        return NavigationStack(path: $viewModel.path) {
             mainView
                 .background(.ypWhiteDL)
                 .navigationTitle("Выбор города")
@@ -30,6 +30,12 @@ struct CitySelectionView: View {
                             Image(systemName: "chevron.left")
                                 .foregroundStyle(Color.ypBlackDL)
                         })
+                    }
+                })
+                .navigationDestination(for: CitySelectionViewModel.Destination.self, destination: { destination in
+                    switch destination {
+                    case .stationSelection:
+                        StationSelection(viewModel: viewModel.makeStationSelectionViewModel())
                     }
                 })
                 .searchable(text: searchBinding, prompt: "Введите запрос")
@@ -49,11 +55,11 @@ struct CitySelectionView: View {
     var citiesList: some View {
         ScrollView {
             ForEach(viewModel.visibleList, id: \.self) { item in
-                NavigationLink {
-//                    StationSelection(modalViewIsPresented: $modalViewIsPresented, city: item)
-                } label: {
-                    listRow(city: item)
-                }
+                listRow(city: item)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        viewModel.showStationSelection(selectedCity: item)
+                    }
             }
         }
         .padding(.horizontal)

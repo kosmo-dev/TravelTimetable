@@ -8,12 +8,9 @@
 import SwiftUI
 
 struct StationSelection: View {
-    @Binding var modalViewIsPresented: Bool
+    
+    @ObservedObject var viewModel: StationSelectionViewModel
     @Environment(\.dismiss) private var dismiss
-    @State var searchText = ""
-
-    let list: [String] = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
-    let city: String
 
     var body: some View {
         mainView
@@ -31,24 +28,24 @@ struct StationSelection: View {
                     })
                 }
             })
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Введите запрос")
+            .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Введите запрос")
     }
     
     var mainView: some View {
         ScrollView {
-            ForEach(list, id: \.self) { item in
-                listRow(city: item)
+            ForEach(viewModel.visibleList, id: \.self) { item in
+                listRow(station: item)
                     .onTapGesture {
-                        modalViewIsPresented = false
+                        #warning("choose station not implemented")
                     }
             }
         }
         .padding(.horizontal)
     }
     
-    func listRow(city: String) -> some View {
+    func listRow(station: String) -> some View {
         HStack {
-            Text(city)
+            Text(station)
                 .font(.system(size: 17))
                 .foregroundStyle(Color.ypBlackDL)
             Spacer()
@@ -61,5 +58,5 @@ struct StationSelection: View {
 }
 
 #Preview {
-    StationSelection(modalViewIsPresented: .constant(true), city: "Москва")
+    StationSelection(viewModel: StationSelectionViewModel(city: "Moscow", onDismiss: {}))
 }

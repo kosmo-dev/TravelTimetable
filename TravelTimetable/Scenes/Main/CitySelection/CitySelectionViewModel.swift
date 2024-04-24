@@ -12,13 +12,20 @@ final class CitySelectionViewModel: ObservableObject {
         case loaded
         case emptySearch
     }
+    
+    enum Destination: Hashable {
+        case stationSelection
+    }
 
     @Published var state: State = .loaded
     @Published var searchText = ""
     @Published var visibleList: [String]
-    private var list: [String] = ["Москва", "Санкт-Петербург", "Сочи", "Горный Воздух", "Краснодар", "Казань", "Омск"]
+    @Published var path: [Destination] = []
 
     var onDismiss: () -> Void
+    
+    private var list: [String] = ["Москва", "Санкт-Петербург", "Сочи", "Горный Воздух", "Краснодар", "Казань", "Омск"]
+    private var selectedCity: String = ""
 
     init(onDismiss: @escaping () -> Void) {
         self.onDismiss = onDismiss
@@ -44,5 +51,13 @@ final class CitySelectionViewModel: ObservableObject {
             state = .loaded
         }
     }
-
+    
+    func showStationSelection(selectedCity: String) {
+        self.selectedCity = selectedCity
+        path.append(.stationSelection)
+    }
+    
+    func makeStationSelectionViewModel() -> StationSelectionViewModel {
+        StationSelectionViewModel(city: selectedCity, onDismiss: onDismiss)
+    }
 }

@@ -29,6 +29,7 @@
 		3DF3CAAF2B97C5C000F27668 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3CAAE2B97C5C000F27668 /* NetworkService.swift */; };
 		3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */; };
 		3DF8D74E2BC16D6300099CCC /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D74D2BC16D6300099CCC /* StoryView.swift */; };
+		DD807B4F2BD806DC005BE914 /* StationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD807B4E2BD806DC005BE914 /* StationSelectionViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		3DF3CAAE2B97C5C000F27668 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierInfoView.swift; sourceTree = "<group>"; };
 		3DF8D74D2BC16D6300099CCC /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
+		DD807B4E2BD806DC005BE914 /* StationSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationSelectionViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				3D20C9DA2BC08A6900B7353B /* StationSelection.swift */,
+				DD807B4E2BD806DC005BE914 /* StationSelectionViewModel.swift */,
 			);
 			path = StationSelection;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				3D3A78262BD51C6C008A2F1E /* CitySelectionViewModel.swift in Sources */,
 				3D1946EA2BD1AC23002AB238 /* SplashScreen.swift in Sources */,
 				3D6DC6512BBF4330008882FE /* SettingsView.swift in Sources */,
+				DD807B4F2BD806DC005BE914 /* StationSelectionViewModel.swift in Sources */,
 				3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */,
 				3D6DC64F2BBF431B008882FE /* MainView.swift in Sources */,
 				3DBB555A2B9ACF5D005CFAD0 /* Request.swift in Sources */,
