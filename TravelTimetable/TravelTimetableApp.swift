@@ -9,10 +9,12 @@ import SwiftUI
 
 @main
 struct TravelTimetableApp: App {
+    let cityManager = CityManager()
+
     var body: some Scene {
         WindowGroup {
             TabView {
-                MainView(viewModel: MainViewViewModel())
+                MainView(viewModel: MainViewViewModel(cityManager: cityManager))
                     .tabItem {
                         Image(systemName: "arrow.up.message.fill")
                     }

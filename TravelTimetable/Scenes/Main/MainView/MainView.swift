@@ -16,9 +16,7 @@ struct MainView: View {
             mainView
                 .background(viewModel.backgroundColor)
                 .fullScreenCover(isPresented: $viewModel.cityCelectionIsPresented, content: {
-                    CitySelectionView(viewModel: CitySelectionViewModel(onDismiss: {
-                        viewModel.cityCelectionIsPresented = false
-                    }))
+                    try? viewModel.makeCitySelectionView()
                 })
                 .fullScreenCover(isPresented: $viewModel.routeIsPresented, content: {
                     RouteListView()
@@ -41,8 +39,10 @@ struct MainView: View {
             searchView
                 .padding(.top, 20)
                 .padding(.horizontal, 16)
-            searchButton
-                .padding()
+            if viewModel.departureStation != "" && viewModel.arrivalStation != "" {
+                searchButton
+                    .padding()
+            }
             Spacer()
         }
     }
@@ -97,23 +97,22 @@ struct MainView: View {
                         .foregroundStyle(Color.white)
                     VStack( spacing: 28) {
                         HStack {
-                            Text("Откуда")
-
-                                .foregroundStyle(Color.ypGray)
+                            Text(viewModel.departureStation == "" ? "Откуда" : viewModel.departureStation)
+                                .foregroundStyle(viewModel.departureStation == "" ? Color.ypGray : Color.ypBlack)
                             Spacer()
                         }
                         .background(.white)
                         .onTapGesture {
-                            viewModel.cityCelectionIsPresented = true
+                            viewModel.selectDeparture()
                         }
                         HStack {
-                            Text("Куда")
-                                .foregroundStyle(Color.ypGray)
+                            Text(viewModel.arrivalStation == "" ? "Куда" : viewModel.arrivalStation)
+                                .foregroundStyle(viewModel.arrivalStation == "" ? Color.ypGray : Color.ypBlack)
                             Spacer()
                         }
                         .background(.white)
                         .onTapGesture {
-                            viewModel.cityCelectionIsPresented = true
+                            viewModel.selectArrival()
                         }
                     }
                     .padding()
@@ -126,8 +125,12 @@ struct MainView: View {
     }
 
     var changeDirectionButton: some View {
-        Image("icСhange")
-            .padding(.trailing)
+        Button {
+            viewModel.swapCities()
+        } label: {
+            Image("icСhange")
+                .padding(.trailing)
+        }
     }
 
     var searchButton: some View {
@@ -148,5 +151,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(viewModel: MainViewViewModel())
+    MainView(viewModel: MainViewViewModel(cityManager: CityManager()))
 }

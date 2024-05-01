@@ -13,8 +13,6 @@ final class StationSelectionViewModel: ObservableObject {
         case emptySearch
     }
     
-    let city: String
-    
     @Published var state: State = .loaded
     @Published var searchText = ""
     @Published var visibleList: [String]
@@ -22,10 +20,14 @@ final class StationSelectionViewModel: ObservableObject {
     
     var onDismiss: () -> Void
 
-    init(city: String, onDismiss: @escaping () -> Void) {
+    private var cityManager: CityManagerProtocol
+    private var cityType: CityType
+
+    init(cityManager: CityManagerProtocol, cityType: CityType, onDismiss: @escaping () -> Void) {
         self.onDismiss = onDismiss
+        self.cityManager = cityManager
+        self.cityType = cityType
         visibleList = list
-        self.city = city
     }
     
     func performSearch(text: String) {
@@ -46,5 +48,9 @@ final class StationSelectionViewModel: ObservableObject {
         } else {
             state = .loaded
         }
+    }
+
+    func chooseStaion(_ station: String) {
+        cityManager.setStation(station, type: cityType)
     }
 }

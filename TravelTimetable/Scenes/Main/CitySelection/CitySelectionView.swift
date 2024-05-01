@@ -39,6 +39,7 @@ struct CitySelectionView: View {
                     }
                 })
                 .searchable(text: searchBinding, prompt: "Введите запрос")
+                .sear
         }
     }
 
@@ -89,5 +90,5 @@ struct CitySelectionView: View {
 }
 
 #Preview {
-    CitySelectionView(viewModel: CitySelectionViewModel(onDismiss: {}))
+    CitySelectionView(viewModel: CitySelectionViewModel(cityManager: CityManager(), cityType: .arrival, onDismiss: {}))
 }

@@ -27,7 +27,12 @@ final class CitySelectionViewModel: ObservableObject {
     private var list: [String] = ["Москва", "Санкт-Петербург", "Сочи", "Горный Воздух", "Краснодар", "Казань", "Омск"]
     private var selectedCity: String = ""
 
-    init(onDismiss: @escaping () -> Void) {
+    private var cityManager: CityManagerProtocol
+    private var cityType: CityType
+
+    init(cityManager: CityManagerProtocol, cityType: CityType, onDismiss: @escaping () -> Void) {
+        self.cityManager = cityManager
+        self.cityType = cityType
         self.onDismiss = onDismiss
         visibleList = list
     }
@@ -53,11 +58,12 @@ final class CitySelectionViewModel: ObservableObject {
     }
     
     func showStationSelection(selectedCity: String) {
+        cityManager.setCity(selectedCity, type: cityType)
         self.selectedCity = selectedCity
         path.append(.stationSelection)
     }
     
     func makeStationSelectionViewModel() -> StationSelectionViewModel {
-        StationSelectionViewModel(city: selectedCity, onDismiss: onDismiss)
+        StationSelectionViewModel(cityManager: cityManager, cityType: cityType, onDismiss: onDismiss)
     }
 }

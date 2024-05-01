@@ -10,7 +10,6 @@ import SwiftUI
 struct StationSelection: View {
     
     @ObservedObject var viewModel: StationSelectionViewModel
-    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         mainView
@@ -21,7 +20,7 @@ struct StationSelection: View {
             .toolbar(content: {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(action: {
-                        dismiss()
+                        viewModel.onDismiss()
                     }, label: {
                         Image(systemName: "chevron.left")
                             .foregroundStyle(Color.ypBlackDL)
@@ -36,7 +35,8 @@ struct StationSelection: View {
             ForEach(viewModel.visibleList, id: \.self) { item in
                 listRow(station: item)
                     .onTapGesture {
-                        #warning("choose station not implemented")
+                        viewModel.chooseStaion(item)
+                        viewModel.onDismiss()
                     }
             }
         }
@@ -58,5 +58,5 @@ struct StationSelection: View {
 }
 
 #Preview {
-    StationSelection(viewModel: StationSelectionViewModel(city: "Moscow", onDismiss: {}))
+    StationSelection(viewModel: StationSelectionViewModel(cityManager: CityManager(), cityType: .arrival, onDismiss: {}))
 }
