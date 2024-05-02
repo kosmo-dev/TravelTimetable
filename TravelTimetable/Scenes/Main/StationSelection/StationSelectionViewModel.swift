@@ -15,7 +15,11 @@ final class StationSelectionViewModel: ObservableObject {
     
     @Published var state: State = .loaded
     @Published var searchText = ""
-    @Published var visibleList: [String]
+    @Published var visibleList: [String] {
+        didSet {
+            checkAndChangeState()
+        }
+    }
     private var list: [String] = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
     
     var onDismiss: () -> Void
@@ -39,7 +43,6 @@ final class StationSelectionViewModel: ObservableObject {
         }
 
         visibleList = list.filter { $0.lowercased().contains(text.lowercased()) }
-        checkAndChangeState()
     }
 
     func checkAndChangeState() {

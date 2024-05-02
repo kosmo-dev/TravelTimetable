@@ -10,9 +10,14 @@ import SwiftUI
 struct StationSelection: View {
     
     @ObservedObject var viewModel: StationSelectionViewModel
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        mainView
+        let searchBinding = Binding<String>(
+            get: { viewModel.searchText },
+            set: { viewModel.performSearch(text: $0) }
+        )
+        return mainView
             .background(.ypWhiteDL)
             .navigationTitle("Выбор станции")
             .navigationBarTitleDisplayMode(.inline)
@@ -20,17 +25,28 @@ struct StationSelection: View {
             .toolbar(content: {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(action: {
-                        viewModel.onDismiss()
+                        dismiss()
                     }, label: {
                         Image(systemName: "chevron.left")
                             .foregroundStyle(Color.ypBlackDL)
                     })
                 }
             })
-            .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Введите запрос")
+            .searchable(text: searchBinding, placement: .navigationBarDrawer(displayMode: .always), prompt: "Введите запрос")
     }
     
+    @ViewBuilder
     var mainView: some View {
+        switch viewModel.state {
+        case .loaded:
+            stationsList
+        case .emptySearch:
+            emptySearch
+        }
+        
+    }
+    
+    var stationsList: some View {
         ScrollView {
             ForEach(viewModel.visibleList, id: \.self) { item in
                 listRow(station: item)
@@ -54,6 +70,17 @@ struct StationSelection: View {
         }
         .background(.ypWhiteDL)
         .padding(.vertical, 19)
+    }
+    
+    var emptySearch: some View {
+        VStack {
+            Spacer()
+            Text("Станция не найдена")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundStyle(Color.ypBlackDL)
+            Spacer()
+            
+        }
     }
 }
 

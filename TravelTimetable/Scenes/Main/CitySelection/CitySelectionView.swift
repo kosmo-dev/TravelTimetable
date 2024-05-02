@@ -39,7 +39,6 @@ struct CitySelectionView: View {
                     }
                 })
                 .searchable(text: searchBinding, prompt: "Введите запрос")
-                .sear
         }
     }
 

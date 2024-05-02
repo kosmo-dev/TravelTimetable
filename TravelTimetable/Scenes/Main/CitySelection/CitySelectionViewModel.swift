@@ -19,7 +19,11 @@ final class CitySelectionViewModel: ObservableObject {
 
     @Published var state: State = .loaded
     @Published var searchText = ""
-    @Published var visibleList: [String]
+    @Published var visibleList: [String] {
+        didSet {
+            checkAndChangeState()
+        }
+    }
     @Published var path: [Destination] = []
 
     var onDismiss: () -> Void
@@ -44,9 +48,7 @@ final class CitySelectionViewModel: ObservableObject {
             visibleList = list
             return
         }
-
         visibleList = list.filter { $0.lowercased().contains(text.lowercased()) }
-        checkAndChangeState()
     }
 
     func checkAndChangeState() {
