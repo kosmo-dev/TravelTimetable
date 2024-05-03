@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct TravelTimetableApp: App {
     let cityManager = CityManager()
+    let colorSchemeManager = ColorSchemeManager()
 
     var body: some Scene {
         WindowGroup {
@@ -18,10 +19,12 @@ struct TravelTimetableApp: App {
                     .tabItem {
                         Image(systemName: "arrow.up.message.fill")
                     }
-                SettingsView()
+                    .environment(\.colorScheme, colorSchemeManager.currentColorScheme)
+                SettingsView(viewModel: SettingViewModel(colorSchemeManager: colorSchemeManager))
                     .tabItem {
                         Image(systemName: "gearshape.fill")
                     }
+                    .environment(\.colorScheme, colorSchemeManager.currentColorScheme)
             }
             .onAppear {
                 let appearance = UITabBarAppearance()

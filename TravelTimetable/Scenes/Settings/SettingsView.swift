@@ -7,24 +7,32 @@
 
 import SwiftUI
 
-struct SettingsView: View {
-    @State var darkThemeIsOn = false
+struct SettingsView: View {    
+    
+    private var viewModel: SettingViewModel
+    
+    init(viewModel: SettingViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         mainView
             .background(.ypWhiteDL)
-            
     }
     
     var mainView: some View {
-        VStack(spacing: 0) {
+        let toggleBinding = Binding<Bool>(
+            get: { viewModel.colorToogleIsOn },
+            set: { viewModel.setColorScheme($0)})
+        
+        return VStack(spacing: 0) {
             HStack {
                 Text("Темная тема")
                     .padding(.vertical, 19)
                     .foregroundStyle(Color.ypBlackDL)
                     .font(.system(size: 17))
                 Spacer()
-                Toggle("", isOn: $darkThemeIsOn)
+                Toggle("", isOn: toggleBinding)
                     .tint(Color.ypBlue)
             }
             HStack {
@@ -51,5 +59,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(viewModel: SettingViewModel(colorSchemeManager: ColorSchemeManager()))
 }
