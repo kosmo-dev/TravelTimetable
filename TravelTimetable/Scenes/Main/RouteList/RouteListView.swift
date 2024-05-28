@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RouteListView: View {
+    @ObservedObject var viewModel: RouteListViewModel
     @Environment(\.dismiss) private var dismiss
 
     var title = "Москва (Ярославский вокзал) - Санкт-Петербург (Московский вокзал)"
