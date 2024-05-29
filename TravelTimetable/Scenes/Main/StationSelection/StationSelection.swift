@@ -42,6 +42,10 @@ struct StationSelection: View {
             stationsList
         case .emptySearch:
             emptySearch
+        case .serverError:
+            ServerErrorView()
+        case .noInternet:
+            NoInternetView()
         }
         
     }

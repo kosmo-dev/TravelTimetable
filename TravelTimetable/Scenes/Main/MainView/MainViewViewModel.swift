@@ -13,6 +13,12 @@ final class MainViewViewModel: ObservableObject {
         case unableMakeCitySelectionView
         case unableMakeRouteListView
     }
+    
+    enum State {
+        case loaded
+        case serverError
+        case noInternet
+    }
 
     @Published var departureStation: String = ""
     @Published var arrivalStation: String = ""
@@ -21,6 +27,7 @@ final class MainViewViewModel: ObservableObject {
     @Published var storyIsPresented = false
     @Published var choosedStory: Story?
     @Published var backgroundColor: Color = .ypWhiteDL
+    @Published var viewState: State = .loaded
 
     private var cityManager: CityManagerProtocol
     private var cityType: CityType?

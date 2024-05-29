@@ -11,6 +11,8 @@ final class StationSelectionViewModel: ObservableObject {
     enum State {
         case loaded
         case emptySearch
+        case serverError
+        case noInternet
     }
     
     @Published var state: State = .loaded

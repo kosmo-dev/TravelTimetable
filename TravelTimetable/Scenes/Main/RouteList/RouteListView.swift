@@ -36,6 +36,10 @@ struct RouteListView: View {
             loadedView
         case .empty:
             emptyView
+        case .serverError:
+            ServerErrorView()
+        case .noInternet:
+            NoInternetView()
         }
     }
     
@@ -158,7 +162,7 @@ struct RouteListView: View {
 
     var filterButton: some View {
         NavigationLink {
-            FilterView()
+            viewModel.makeFilterView()
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
@@ -170,6 +174,11 @@ struct RouteListView: View {
                         .font(.system(size: 17, weight: .bold))
                         .foregroundStyle(Color.white)
                         .padding(.vertical, 20)
+                    if viewModel.filterButtonState == .withFilter {
+                        Circle()
+                            .frame(width: 8)
+                            .foregroundStyle(.ypRed)
+                    }
                     Spacer()
                 }
             }

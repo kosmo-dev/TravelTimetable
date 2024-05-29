@@ -12,15 +12,30 @@ final class RouteListViewModel: ObservableObject {
     enum State {
         case loaded
         case empty
+        case serverError
+        case noInternet
     }
     
-    @Published var state: State = .empty
+    enum FilterButtonState {
+        case withFilter
+        case none
+    }
+    
+    @Published var state: State = .loaded
     @Published var routeTitle: RouteTitle
     @Published var routes: [Route]
+    @Published var filterButtonState: FilterButtonState = .none
     
     init(routeTitle: RouteTitle, routes: [Route]) {
         self.routeTitle = routeTitle
         self.routes = routes
+    }
+    
+    func makeFilterView() -> FilterView {
+        let filterViewModel = FilterViewModel { [weak self] in
+            self?.filterButtonState = .withFilter
+        }
+        return FilterView(viewModel: filterViewModel)
     }
 }
 

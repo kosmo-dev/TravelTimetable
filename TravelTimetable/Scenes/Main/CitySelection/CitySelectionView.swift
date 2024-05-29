@@ -49,6 +49,10 @@ struct CitySelectionView: View {
             citiesList
         case .emptySearch:
             emptySearch
+        case .serverError:
+            ServerErrorView()
+        case .noInternet:
+            NoInternetView()
         }
     }
 

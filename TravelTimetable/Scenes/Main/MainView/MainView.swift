@@ -12,24 +12,31 @@ struct MainView: View {
     @ObservedObject var viewModel: MainViewViewModel
 
     var body: some View {
-        NavigationView {
-            mainView
-                .background(viewModel.backgroundColor)
-                .fullScreenCover(isPresented: $viewModel.cityCelectionIsPresented, content: {
-                    try? viewModel.makeCitySelectionView()
-                })
-                .fullScreenCover(isPresented: $viewModel.routeIsPresented, content: {
-                    try? viewModel.makeRouteListView()
-                })
-                .sheet(isPresented: $viewModel.storyIsPresented, onDismiss: {
-                    withAnimation {
-                        viewModel.backgroundColor = .ypWhiteDL
-                    }
-                }, content: {
-                    if let story = viewModel.choosedStory {
-                        StoryView(story: story)
-                    }
-                })
+        switch viewModel.viewState {
+        case .loaded:
+            NavigationView {
+                mainView
+                    .background(viewModel.backgroundColor)
+                    .fullScreenCover(isPresented: $viewModel.cityCelectionIsPresented, content: {
+                        try? viewModel.makeCitySelectionView()
+                    })
+                    .fullScreenCover(isPresented: $viewModel.routeIsPresented, content: {
+                        try? viewModel.makeRouteListView()
+                    })
+                    .sheet(isPresented: $viewModel.storyIsPresented, onDismiss: {
+                        withAnimation {
+                            viewModel.backgroundColor = .ypWhiteDL
+                        }
+                    }, content: {
+                        if let story = viewModel.choosedStory {
+                            StoryView(story: story)
+                        }
+                    })
+            }
+        case .serverError:
+            ServerErrorView()
+        case .noInternet:
+            NoInternetView()
         }
     }
 

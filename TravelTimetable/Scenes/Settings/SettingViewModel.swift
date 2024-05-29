@@ -8,7 +8,6 @@
 import Foundation
 
 final class SettingViewModel {
-    
     private(set) var colorToogleIsOn: Bool
     
     private var colorSchemeManager: ColorSchemeManagerProtocol

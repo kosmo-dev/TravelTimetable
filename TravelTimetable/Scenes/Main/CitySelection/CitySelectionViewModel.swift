@@ -11,6 +11,8 @@ final class CitySelectionViewModel: ObservableObject {
     enum State {
         case loaded
         case emptySearch
+        case serverError
+        case noInternet
     }
     
     enum Destination: Hashable {
