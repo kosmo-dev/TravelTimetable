@@ -14,6 +14,7 @@ final class RouteListViewModel: ObservableObject {
         case empty
     }
     
+    @Published var state: State = .empty
     @Published var routeTitle: RouteTitle
     @Published var routes: [Route]
     

@@ -29,7 +29,17 @@ struct RouteListView: View {
         }
     }
 
+    @ViewBuilder
     var mainView: some View {
+        switch viewModel.state {
+        case .loaded:
+            loadedView
+        case .empty:
+            emptyView
+        }
+    }
+    
+    var loadedView: some View {
         ZStack(alignment: .bottom) {
             VStack {
                 routeTitle
@@ -39,6 +49,18 @@ struct RouteListView: View {
             }
             filterButton
                 .padding(.horizontal)
+        }
+    }
+    
+    var emptyView: some View {
+        VStack {
+            routeTitle
+                .padding(.horizontal)
+            Spacer()
+            Text("Вариантов нет")
+                .foregroundStyle(.ypBlackDL)
+                .font(.system(size: 24, weight: .bold))
+            Spacer()
         }
     }
 
