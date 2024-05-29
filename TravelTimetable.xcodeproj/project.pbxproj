@@ -31,6 +31,7 @@
 		3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */; };
 		3DF8D74E2BC16D6300099CCC /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D74D2BC16D6300099CCC /* StoryView.swift */; };
 		DD38EDE72C05FD4600AB4886 /* RouteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDE62C05FD4600AB4886 /* RouteListViewModel.swift */; };
+		DD38EDE92C07212400AB4886 /* RouteTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDE82C07212400AB4886 /* RouteTitle.swift */; };
 		DD45DB902BE5357D00C702BC /* ColorSchemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD45DB8F2BE5357D00C702BC /* ColorSchemeManager.swift */; };
 		DD45DB922BE536A100C702BC /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD45DB912BE536A100C702BC /* SettingViewModel.swift */; };
 		DD807B4F2BD806DC005BE914 /* StationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD807B4E2BD806DC005BE914 /* StationSelectionViewModel.swift */; };
@@ -60,6 +61,7 @@
 		3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierInfoView.swift; sourceTree = "<group>"; };
 		3DF8D74D2BC16D6300099CCC /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
 		DD38EDE62C05FD4600AB4886 /* RouteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteListViewModel.swift; sourceTree = "<group>"; };
+		DD38EDE82C07212400AB4886 /* RouteTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTitle.swift; sourceTree = "<group>"; };
 		DD45DB8F2BE5357D00C702BC /* ColorSchemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeManager.swift; sourceTree = "<group>"; };
 		DD45DB912BE536A100C702BC /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		DD807B4E2BD806DC005BE914 /* StationSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				3D6DC6552BBF4985008882FE /* Story.swift */,
+				DD38EDE82C07212400AB4886 /* RouteTitle.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				3D6DC6512BBF4330008882FE /* SettingsView.swift in Sources */,
 				DD807B4F2BD806DC005BE914 /* StationSelectionViewModel.swift in Sources */,
 				3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */,
+				DD38EDE92C07212400AB4886 /* RouteTitle.swift in Sources */,
 				3D6DC64F2BBF431B008882FE /* MainView.swift in Sources */,
 				DD45DB902BE5357D00C702BC /* ColorSchemeManager.swift in Sources */,
 				3DBB555A2B9ACF5D005CFAD0 /* Request.swift in Sources */,

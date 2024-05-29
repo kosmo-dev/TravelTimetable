@@ -19,7 +19,7 @@ struct MainView: View {
                     try? viewModel.makeCitySelectionView()
                 })
                 .fullScreenCover(isPresented: $viewModel.routeIsPresented, content: {
-                    RouteListView()
+                    try? viewModel.makeRouteListView()
                 })
                 .sheet(isPresented: $viewModel.storyIsPresented, onDismiss: {
                     withAnimation {

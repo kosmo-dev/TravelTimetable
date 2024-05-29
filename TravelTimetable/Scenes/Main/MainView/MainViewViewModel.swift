@@ -11,6 +11,7 @@ import Combine
 final class MainViewViewModel: ObservableObject {
     enum Errors: Error {
         case unableMakeCitySelectionView
+        case unableMakeRouteListView
     }
 
     @Published var departureStation: String = ""
@@ -68,6 +69,15 @@ final class MainViewViewModel: ObservableObject {
         return CitySelectionView(viewModel: CitySelectionViewModel(cityManager: cityManager, cityType: cityType, onDismiss: { [weak self] in
             self?.cityCelectionIsPresented = false
         }))
+    }
+    
+    func makeRouteListView() throws -> RouteListView {
+        guard let arrivalCity = cityManager.arrivalCity,
+              let arrivalStation = cityManager.arrivalStation,
+              let departureCity = cityManager.departureCity,
+              let departureStation = cityManager.departureStation
+        else { throw Errors.unableMakeRouteListView }
+        return RouteListView(viewModel: RouteListViewModel(routeTitle: RouteTitle(departureCity: departureCity, departureStation: departureStation, arrivalCity: arrivalCity, arrivalStation: arrivalStation), routes: RoutesMock.mock))
     }
 }
 

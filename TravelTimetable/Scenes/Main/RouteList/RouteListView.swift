@@ -11,9 +11,6 @@ struct RouteListView: View {
     @ObservedObject var viewModel: RouteListViewModel
     @Environment(\.dismiss) private var dismiss
 
-    var title = "Москва (Ярославский вокзал) - Санкт-Петербург (Московский вокзал)"
-    var routes: [Route] = RoutesMock.mock
-
     var body: some View {
         NavigationView {
             mainView
@@ -46,14 +43,18 @@ struct RouteListView: View {
     }
 
     var routeTitle: some View {
-        Text(title)
+        Text("\(viewModel.routeTitle.departureCity) (\(viewModel.routeTitle.departureStation)) ")
             .font(.system(size: 24, weight: .bold))
-            .foregroundStyle(Color.ypBlackDL)
+            .foregroundColor(Color.ypBlackDL)
+        + Text(Image(systemName: "arrow.right"))
+        + Text(" \(viewModel.routeTitle.arrivalCity) (\(viewModel.routeTitle.arrivalStation))")
+            .font(.system(size: 24, weight: .bold))
+            .foregroundColor(Color.ypBlackDL)
     }
 
     var list: some View {
         ScrollView(showsIndicators: false) {
-            ForEach(routes, id: \.uid) { route in
+            ForEach(viewModel.routes, id: \.uid) { route in
                 NavigationLink {
                     if let carrier = route.carrier {
                         CarrierInfoView(carrier: carrier)
@@ -156,109 +157,5 @@ struct RouteListView: View {
 }
 
 #Preview {
-    RouteListView()
-}
-
-
-struct RoutesMock {
-    static let mock: [Route] = [
-        Route(
-            arrival_date: "14 января",
-            uid: UUID().uuidString,
-            interval: Components.Schemas.Interval(
-                density: "20 часов",
-                end_time: "08:15",
-                begin_time: "22:30"),
-            carrier: Components.Schemas.Carrier(
-                logo_svg: "MockCarrierIcon",
-                title: "РЖД",
-                phone: "+7 (495) 123-45-67",
-                email: "mockemail@email.ru"
-            ),
-            stops: [
-                Components.Schemas.Stop(
-                    station: Components.Schemas.Station(title: "Кострома")
-                )
-            ]
-        ),
-        Route(
-            arrival_date: "15 января",
-            uid: UUID().uuidString,
-            interval: Components.Schemas.Interval(
-                density: "9 часов",
-                end_time: "01:15",
-                begin_time: "09:00"),
-            carrier: Components.Schemas.Carrier(
-                logo_svg: "MockCarrierIcon",
-                title: "ФГК",
-                phone: "+7 (495) 123-45-67",
-                email: "mockemail@email.ru"
-            ),
-            stops: []
-        ),
-        Route(
-            arrival_date: "16 января",
-            uid: UUID().uuidString,
-            interval: Components.Schemas.Interval(
-                density: "9 часов",
-                end_time: "12:30",
-                begin_time: "21:00"),
-            carrier: Components.Schemas.Carrier(
-                logo_svg: "MockCarrierIcon",
-                title: "Урал Логистика",
-                phone: "+7 (495) 123-45-67",
-                email: "mockemail@email.ru"
-            ),
-            stops: []
-        ),
-        Route(
-            arrival_date: "17 января",
-            uid: UUID().uuidString,
-            interval: Components.Schemas.Interval(
-                density: "20 часов",
-                end_time: "08:15",
-                begin_time: "22:30"),
-            carrier: Components.Schemas.Carrier(
-                logo_svg: "MockCarrierIcon",
-                title: "РЖД",
-                phone: "+7 (495) 123-45-67",
-                email: "mockemail@email.ru"
-            ),
-            stops: [
-                Components.Schemas.Stop(
-                    station: Components.Schemas.Station(title: "Кострома")
-                )
-            ]
-        ),
-        Route(
-            arrival_date: "18 января",
-            uid: UUID().uuidString,
-            interval: Components.Schemas.Interval(
-                density: "12 часов",
-                end_time: "08:15",
-                begin_time: "20:30"),
-            carrier: Components.Schemas.Carrier(
-                logo_svg: "MockCarrierIcon",
-                title: "РЖД",
-                phone: "+7 (495) 123-45-67",
-                email: "mockemail@email.ru"
-            ),
-            stops: []
-        ),
-        Route(
-            arrival_date: "18 января",
-            uid: UUID().uuidString,
-            interval: Components.Schemas.Interval(
-                density: "4 часов",
-                end_time: "08:15",
-                begin_time: "12:30"),
-            carrier: Components.Schemas.Carrier(
-                logo_svg: "MockCarrierIcon",
-                title: "РЖД Сапсан",
-                phone: "+7 (495) 123-45-67",
-                email: "mockemail@email.ru"
-            ),
-            stops: []
-        )
-    ]
+    RouteListView(viewModel: RouteListViewModel(routeTitle: RouteTitle(departureCity: "Moscow", departureStation: "station", arrivalCity: "Saint Petersburg", arrivalStation: "station"), routes: RoutesMock.mock))
 }
