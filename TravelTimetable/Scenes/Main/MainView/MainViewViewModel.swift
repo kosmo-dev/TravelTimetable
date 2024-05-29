@@ -43,18 +43,25 @@ final class MainViewViewModel: ObservableObject {
         }.store(in: &cancellables)
     }
 
-    let stories: [Story] = Story.mock
-
-    func showDepartureCities() {
-
-    }
-
-    func showArrivalCities() {
-
-    }
-
-    func showRoute() {
-
+    var stories: [Story] = Story.mock
+    
+    func presentStory(_ story: Story) {
+        choosedStory = story
+        
+        if let index = stories.firstIndex(where: { $0.id == story.id }) {
+            let oldStory = stories[index]
+            let newStory = Story(
+                id: oldStory.id,
+                images: oldStory.images,
+                previewImage: oldStory.previewImage,
+                title: oldStory.title,
+                description: oldStory.description,
+                isViewed: true
+            )
+            stories[index] = newStory
+        }
+        
+        storyIsPresented = true
     }
 
     func swapCities() {
