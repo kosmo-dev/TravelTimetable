@@ -5,13 +5,14 @@
 //  Created by Вадим Кузьмин on 29.05.2024.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 
 final class StoryViewModel: ObservableObject {
 
     @Published var progress: CGFloat = 0
     @Published var storySheetIsVisible: Bool = true
+    @Published var pushEdge: Edge = .trailing
     let stories: [Story]
     var timer: Timer.TimerPublisher = Timer.publish(every: 0.03, on: .main, in: .common)
 
@@ -44,12 +45,32 @@ final class StoryViewModel: ObservableObject {
     }
 
     func onStoryTapped() {
-        nextStory()
+        nextImageOrStory()
         resetTimer()
     }
 
     func onReceiveTimer() {
         timerTick()
+    }
+
+    func swipeRight() {
+        resetTimer()
+        previousStory()
+    }
+
+    func swipeLeft() {
+        resetTimer()
+        nextStory()
+    }
+
+    func onEndedDragGesture(translation: CGSize) {
+        let horizontalAmount = translation.width
+        let verticalAmount = translation.height
+
+        if abs(horizontalAmount) > abs(verticalAmount) {
+                pushEdge = horizontalAmount < 0 ? .trailing : .leading
+                horizontalAmount < 0 ? swipeLeft() : swipeRight()
+        }
     }
 }
 
@@ -61,23 +82,40 @@ extension StoryViewModel {
     private func timerTick() {
         let nextProgress = progress + configuration.progressPerTick
         if nextProgress >= 1 {
-            nextStory()
+            withAnimation {
+                nextImageOrStory()
+            }
         } else {
             progress = nextProgress
         }
     }
 
-    private func nextStory() {
+    private func nextImageOrStory() {
+        pushEdge = .trailing
         if currentImageIndex >= currentStory.images.count - 1 {
-            progress = 0
-            if currentStoryIndex >= stories.count - 1 {
-                storySheetIsVisible = false
-            } else {
-                currentStoryIndex += 1
-                storiesManager?.markStoryAsRead(currentStory)
-            }
+            nextStory()
         } else {
             progress = (CGFloat(currentImageIndex) + 1) / CGFloat(currentStory.images.count)
+        }
+    }
+
+    private func nextStory() {
+        progress = 0
+        if currentStoryIndex >= stories.count - 1 {
+            storySheetIsVisible = false
+        } else {
+            currentStoryIndex += 1
+            storiesManager?.markStoryAsRead(currentStory)
+        }
+    }
+
+    private func previousStory() {
+        if currentStoryIndex > 0 {
+            currentStoryIndex -= 1
+            storiesManager?.markStoryAsRead(currentStory)
+            progress = 0
+        } else {
+            progress = 0
         }
     }
 
@@ -94,7 +132,7 @@ struct TimerConfiguration {
 
     init(
         storiesCount: Int,
-        secondsPerStory: TimeInterval = 5,
+        secondsPerStory: TimeInterval = 3,
         timerTickInternal: TimeInterval = 0.03
     ) {
         self.timerTickInternal = timerTickInternal

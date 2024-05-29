@@ -20,63 +20,80 @@ struct StoryView: View {
             .onDisappear {
                 viewModel.onDissappear()
             }
-            .onReceive(viewModel.timer, perform: { _ in
-                viewModel.onReceiveTimer()
-            })
             .onTapGesture {
-                viewModel.onStoryTapped()
+                withAnimation {
+                    viewModel.onStoryTapped()
+                }
             }
             .onReceive(viewModel.$storySheetIsVisible, perform: { _ in
                 if viewModel.storySheetIsVisible == false {
                     dismiss()
                 }
             })
+            .onReceive(viewModel.timer, perform: { _ in
+                viewModel.onReceiveTimer()
+            })
+            .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .global)
+                .onEnded { value in
+                    withAnimation {
+                        viewModel.onEndedDragGesture(translation: value.translation)
+                    }
+                })
     }
 
     var mainView: some View {
         ZStack {
             Color.ypBlack
-            VStack {
-                Image(viewModel.currentStory.images[viewModel.currentImageIndex])
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 40))
-                Spacer()
-            }
-
-            ProgressBar(numberOfSection: viewModel.currentStory.images.count, progress: viewModel.progress)
-                .padding(.horizontal, 12)
-                .padding(.top, 28)
-
-            VStack(alignment: .leading) {
-                HStack {
+            ZStack {
+                VStack {
+                    ZStack {
+                        ForEach(viewModel.stories.indices) { i in
+                            if viewModel.currentStoryIndex == i {
+                                Image(viewModel.stories[i].images[viewModel.currentImageIndex])
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(RoundedRectangle(cornerRadius: 40))
+                                    .transition(.push(from: viewModel.pushEdge).combined(with: .scale(scale: 0.7)))
+                            }
+                        }
+                    }
                     Spacer()
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                            Image("icClose")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                    })
                 }
-                .padding(.top, 50)
-                .padding(.trailing, 12)
 
-                Spacer()
+                ProgressBar(numberOfSection: viewModel.currentStory.images.count, progress: viewModel.progress)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 28)
 
-                Text(viewModel.currentStory.title)
-                    .lineLimit(2)
-                    .font(.system(size: 34, weight: .bold))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal)
-                    .padding(.bottom, 16)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            dismiss()
+                        }, label: {
+                            Image("icClose")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        })
+                    }
+                    .padding(.top, 50)
+                    .padding(.trailing, 12)
 
-                Text(viewModel.currentStory.description)
-                    .lineLimit(3)
-                    .font(.system(size: 20, weight: .regular))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal)
-                    .padding(.bottom, 80)
+                    Spacer()
+
+                    Text(viewModel.currentStory.title)
+                        .lineLimit(2)
+                        .font(.system(size: 34, weight: .bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal)
+                        .padding(.bottom, 16)
+
+                    Text(viewModel.currentStory.description)
+                        .lineLimit(3)
+                        .font(.system(size: 20, weight: .regular))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal)
+                        .padding(.bottom, 80)
+                }
             }
         }
     }
