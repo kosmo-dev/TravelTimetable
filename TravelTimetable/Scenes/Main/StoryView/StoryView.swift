@@ -9,25 +9,44 @@ import SwiftUI
 
 struct StoryView: View {
     @Environment(\.dismiss) private var dismiss
-
-    let story: Story
+    @ObservedObject var viewModel: StoryViewModel
 
     var body: some View {
         mainView
             .ignoresSafeArea()
-
+            .onAppear {
+                viewModel.onAppear()
+            }
+            .onDisappear {
+                viewModel.onDissappear()
+            }
+            .onReceive(viewModel.timer, perform: { _ in
+                viewModel.onReceiveTimer()
+            })
+            .onTapGesture {
+                viewModel.onStoryTapped()
+            }
+            .onReceive(viewModel.$storySheetIsVisible, perform: { _ in
+                if viewModel.storySheetIsVisible == false {
+                    dismiss()
+                }
+            })
     }
 
     var mainView: some View {
         ZStack {
             Color.ypBlack
             VStack {
-                Image(story.images[0])
+                Image(viewModel.currentStory.images[viewModel.currentImageIndex])
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 40))
                 Spacer()
             }
+
+            ProgressBar(numberOfSection: viewModel.currentStory.images.count, progress: viewModel.progress)
+                .padding(.horizontal, 12)
+                .padding(.top, 28)
 
             VStack(alignment: .leading) {
                 HStack {
@@ -42,14 +61,17 @@ struct StoryView: View {
                 }
                 .padding(.top, 50)
                 .padding(.trailing, 12)
+
                 Spacer()
-                Text(story.title)
+
+                Text(viewModel.currentStory.title)
                     .lineLimit(2)
                     .font(.system(size: 34, weight: .bold))
                     .foregroundStyle(.white)
                     .padding(.horizontal)
                     .padding(.bottom, 16)
-                Text(story.description)
+
+                Text(viewModel.currentStory.description)
                     .lineLimit(3)
                     .font(.system(size: 20, weight: .regular))
                     .foregroundStyle(.white)
@@ -63,6 +85,6 @@ struct StoryView: View {
 #Preview {
     Spacer()
         .sheet(isPresented: .constant(true), content: {
-            StoryView(story: Story(id: "2", images: ["story2-0", "story2-1"], previewImage: "storyPreview2", title: "Story 2", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", isViewed: false))
+            StoryView(viewModel: StoryViewModel(stories: [Story(id: "2", images: ["story2-0", "story2-1"], previewImage: "storyPreview2", title: "Story 2", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", isViewed: false)], currentStoryIndex: 2, storiesManager: StoriesManager()))
         })
 }

@@ -35,7 +35,7 @@ struct CitySelectionView: View {
                 .navigationDestination(for: CitySelectionViewModel.Destination.self, destination: { destination in
                     switch destination {
                     case .stationSelection:
-                        StationSelection(viewModel: viewModel.makeStationSelectionViewModel())
+                        try? StationSelection(viewModel: viewModel.makeStationSelectionViewModel())
                     }
                 })
                 .searchable(text: searchBinding, prompt: "Введите запрос")

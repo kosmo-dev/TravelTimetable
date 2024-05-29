@@ -15,7 +15,8 @@ struct TravelTimetableApp: App {
     }
     
     let cityManager = CityManager()
-    
+    let storiesManager = StoriesManager()
+
     var viewState: State = .loaded
     
     @AppStorage("isDarkMode") var isDarkMode: Bool = true
@@ -27,7 +28,7 @@ struct TravelTimetableApp: App {
                 SplashScreen()
             case .loaded:
                 TabView {
-                    MainView(viewModel: MainViewViewModel(cityManager: cityManager))
+                    MainView(viewModel: MainViewViewModel(cityManager: cityManager, storiesManager: storiesManager))
                         .tabItem {
                             Image(systemName: "arrow.up.message.fill")
                         }

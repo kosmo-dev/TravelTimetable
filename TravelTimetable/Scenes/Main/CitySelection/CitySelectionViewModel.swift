@@ -8,6 +8,9 @@
 import Foundation
 
 final class CitySelectionViewModel: ObservableObject {
+    enum Errors: Error {
+        case unableMakeStationSelectionViewModel
+    }
     enum State {
         case loaded
         case emptySearch
@@ -33,7 +36,7 @@ final class CitySelectionViewModel: ObservableObject {
     private var list: [String] = ["Москва", "Санкт-Петербург", "Сочи", "Горный Воздух", "Краснодар", "Казань", "Омск"]
     private var selectedCity: String = ""
 
-    private var cityManager: CityManagerProtocol
+    private weak var cityManager: CityManagerProtocol?
     private var cityType: CityType
 
     init(cityManager: CityManagerProtocol, cityType: CityType, onDismiss: @escaping () -> Void) {
@@ -62,12 +65,13 @@ final class CitySelectionViewModel: ObservableObject {
     }
     
     func showStationSelection(selectedCity: String) {
-        cityManager.setCity(selectedCity, type: cityType)
+        cityManager?.setCity(selectedCity, type: cityType)
         self.selectedCity = selectedCity
         path.append(.stationSelection)
     }
     
-    func makeStationSelectionViewModel() -> StationSelectionViewModel {
-        StationSelectionViewModel(cityManager: cityManager, cityType: cityType, onDismiss: onDismiss)
+    func makeStationSelectionViewModel() throws -> StationSelectionViewModel {
+        guard let cityManager else { throw Errors.unableMakeStationSelectionViewModel }
+        return StationSelectionViewModel(cityManager: cityManager, cityType: cityType, onDismiss: onDismiss)
     }
 }

@@ -28,9 +28,7 @@ struct MainView: View {
                             viewModel.backgroundColor = .ypWhiteDL
                         }
                     }, content: {
-                        if let story = viewModel.choosedStory {
-                            StoryView(story: story)
-                        }
+                        try? viewModel.makeStoriesView()
                     })
             }
         case .serverError:
@@ -161,5 +159,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(viewModel: MainViewViewModel(cityManager: CityManager()))
+    MainView(viewModel: MainViewViewModel(cityManager: CityManager(), storiesManager: StoriesManager()))
 }
