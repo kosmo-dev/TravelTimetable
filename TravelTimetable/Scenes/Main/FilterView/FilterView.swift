@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct FilterView: View {
+    
+    @ObservedObject var viewModel: FilterViewModel
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -26,25 +28,64 @@ struct FilterView: View {
             })
     }
 
+    @ViewBuilder
     var mainView: some View {
-        VStack(alignment: .leading) {
+        switch viewModel.viewState {
+        case .loaded:
+            filterView
+        case .serverError:
+            ServerErrorView()
+        case .noInternet:
+            NoInternetView()
+        }
+        
+    }
+    
+    var filterView: some View {
+        let morningBinding = Binding<Bool>(
+            get: { viewModel.selectedTime == .morningTime },
+            set: { _ in viewModel.timeCheckboxTapped(.morningTime) }
+        )
+        let afternoonBinding = Binding<Bool>(
+            get: { viewModel.selectedTime == .afernoonTime },
+            set: {  _ in viewModel.timeCheckboxTapped(.afernoonTime) }
+        )
+        let eveningBinding = Binding<Bool>(
+            get: { viewModel.selectedTime == .eveningTime },
+            set: {  _ in viewModel.timeCheckboxTapped(.eveningTime) }
+        )
+        let nightBinding = Binding<Bool>(
+            get: { viewModel.selectedTime == .nightTime },
+            set: {  _ in viewModel.timeCheckboxTapped(.nightTime) }
+        )
+        
+        let transferCheckBoxYes = Binding<Bool>(
+            get: { viewModel.selectedTransfer == .showTransfer },
+            set: {  _ in viewModel.transferCheckboxTapped(.showTransfer) }
+        )
+        let transferCheckBoxNo = Binding<Bool>(
+            get: { viewModel.selectedTransfer == .hideTransfer },
+            set: {  _ in viewModel.transferCheckboxTapped(.hideTransfer) }
+        )
+        
+        return VStack(alignment: .leading) {
 
             title(text: "Время отправления")
                 .padding(.vertical)
-            timeCheckbox(text: "Утро 06:00 - 12:00", isSelected: .constant(true))
+            timeCheckbox(text: "Утро 06:00 - 12:00", isSelected: morningBinding)
                 .padding(.vertical, 19)
-            timeCheckbox(text: "День 12:00 - 18:00", isSelected: .constant(false))
+            timeCheckbox(text: "День 12:00 - 18:00", isSelected: afternoonBinding)
                 .padding(.vertical, 19)
-            timeCheckbox(text: "Вечер 18:00 - 00:00", isSelected: .constant(true))
+            timeCheckbox(text: "Вечер 18:00 - 00:00", isSelected: eveningBinding)
                 .padding(.vertical, 19)
-            timeCheckbox(text: "Ночь 00:00 - 06:00", isSelected: .constant(false))
+            timeCheckbox(text: "Ночь 00:00 - 06:00", isSelected: nightBinding)
                 .padding(.vertical, 19)
 
             title(text: "Показывать варианты с пересадками")
                 .padding(.vertical)
-            changeCheckbox(text: "Да", isSelected: .constant(true))
+            changeCheckbox(text: "Да", isSelected: transferCheckBoxYes)
                 .padding(.vertical, 19)
-            changeCheckbox(text: "Нет", isSelected: .constant(false))
+            changeCheckbox(text: "Нет", isSelected: transferCheckBoxNo)
                 .padding(.vertical, 19)
 
             Spacer()
@@ -84,6 +125,9 @@ struct FilterView: View {
                     RoundedRectangle(cornerRadius: 4)
                         .foregroundStyle(Color.ypBlackDL)
                 }
+                .onTapGesture {
+                    isSelected.wrappedValue.toggle()
+                }
         }
     }
 
@@ -107,12 +151,15 @@ struct FilterView: View {
                     .foregroundStyle(Color.ypBlackDL)
                     .frame(width: 10)
             }
-
+            .onTapGesture {
+                isSelected.wrappedValue.toggle()
+            }
         }
     }
 
     var confirmButton: some View {
         Button(action: {
+            viewModel.confirmButtonTapped()
             dismiss()
         }, label: {
             ZStack {
@@ -133,5 +180,5 @@ struct FilterView: View {
 }
 
 #Preview {
-    FilterView()
+    FilterView(viewModel: FilterViewModel(onConfirmButtonTapped: {}))
 }

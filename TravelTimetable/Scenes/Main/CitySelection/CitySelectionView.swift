@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct CitySelectionView: View {
-    @Binding var modalViewIsPresented: Bool
-    @Environment(\.dismiss) private var dismiss
-    @State var searchText = ""
 
-    let list: [String] = ["Москва", "Санкт-Петербург", "Сочи", "Горный Воздух", "Краснодар", "Казань", "Омск"]
+    @ObservedObject var viewModel: CitySelectionViewModel
 
     var body: some View {
-        NavigationView {
+        let searchBinding = Binding<String>(
+            get: { viewModel.searchText },
+            set: { viewModel.performSearch(text: $0) }
+        )
+
+        return NavigationStack(path: $viewModel.path) {
             mainView
                 .background(.ypWhiteDL)
                 .navigationTitle("Выбор города")
@@ -23,25 +25,45 @@ struct CitySelectionView: View {
                 .toolbar(content: {
                     ToolbarItem(placement: .cancellationAction) {
                         Button(action: {
-                            dismiss()
+                            viewModel.onDismiss()
                         }, label: {
                             Image(systemName: "chevron.left")
                                 .foregroundStyle(Color.ypBlackDL)
                         })
                     }
                 })
-                .searchable(text: $searchText, prompt: "Введите запрос")
+                .navigationDestination(for: CitySelectionViewModel.Destination.self, destination: { destination in
+                    switch destination {
+                    case .stationSelection:
+                        StationSelection(viewModel: viewModel.makeStationSelectionViewModel())
+                    }
+                })
+                .searchable(text: searchBinding, prompt: "Введите запрос")
         }
     }
 
+    @ViewBuilder
     var mainView: some View {
+        switch viewModel.state {
+        case .loaded:
+            citiesList
+        case .emptySearch:
+            emptySearch
+        case .serverError:
+            ServerErrorView()
+        case .noInternet:
+            NoInternetView()
+        }
+    }
+
+    var citiesList: some View {
         ScrollView {
-            ForEach(list, id: \.self) { item in
-                NavigationLink {
-                    StationSelection(modalViewIsPresented: $modalViewIsPresented, city: item)
-                } label: {
-                    listRow(city: item)
-                }
+            ForEach(viewModel.visibleList, id: \.self) { item in
+                listRow(city: item)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        viewModel.showStationSelection(selectedCity: item)
+                    }
             }
         }
         .padding(.horizontal)
@@ -58,8 +80,24 @@ struct CitySelectionView: View {
         }
         .padding(.vertical, 19)
     }
+
+    var emptySearch: some View {
+        VStack {
+            Spacer()
+            HStack {
+                
+                Spacer()
+                Text("Город не найден")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(Color.ypBlackDL)
+                Spacer()
+                
+            }
+            Spacer()
+        }
+    }
 }
 
 #Preview {
-    CitySelectionView(modalViewIsPresented: .constant(true))
+    CitySelectionView(viewModel: CitySelectionViewModel(cityManager: CityManager(), cityType: .arrival, onDismiss: {}))
 }

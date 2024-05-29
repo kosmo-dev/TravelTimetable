@@ -8,33 +8,35 @@
 import SwiftUI
 
 struct MainView: View {
-    let stories: [Story] = Story.mock
 
-    @State private var cityCelectionIsPresented = false
-    @State private var routeIsPresented = false
-    @State private var storyIsPresented = false
-    @State var choosedStory: Story?
-    @State var backgroundColor: Color = .ypWhiteDL
+    @ObservedObject var viewModel: MainViewViewModel
 
     var body: some View {
-        NavigationView {
-            mainView
-                .background(backgroundColor)
-                .fullScreenCover(isPresented: $cityCelectionIsPresented, content: {
-                    CitySelectionView(modalViewIsPresented: $cityCelectionIsPresented)
-                })
-                .fullScreenCover(isPresented: $routeIsPresented, content: {
-                    RouteListView()
-                })
-                .sheet(isPresented: $storyIsPresented, onDismiss: {
-                    withAnimation {
-                        backgroundColor = .ypWhiteDL
-                    }
-                }, content: {
-                    if let choosedStory {
-                        StoryView(story: choosedStory)
-                    }
-                })
+        switch viewModel.viewState {
+        case .loaded:
+            NavigationView {
+                mainView
+                    .background(viewModel.backgroundColor)
+                    .fullScreenCover(isPresented: $viewModel.cityCelectionIsPresented, content: {
+                        try? viewModel.makeCitySelectionView()
+                    })
+                    .fullScreenCover(isPresented: $viewModel.routeIsPresented, content: {
+                        try? viewModel.makeRouteListView()
+                    })
+                    .sheet(isPresented: $viewModel.storyIsPresented, onDismiss: {
+                        withAnimation {
+                            viewModel.backgroundColor = .ypWhiteDL
+                        }
+                    }, content: {
+                        if let story = viewModel.choosedStory {
+                            StoryView(story: story)
+                        }
+                    })
+            }
+        case .serverError:
+            ServerErrorView()
+        case .noInternet:
+            NoInternetView()
         }
     }
 
@@ -44,8 +46,10 @@ struct MainView: View {
             searchView
                 .padding(.top, 20)
                 .padding(.horizontal, 16)
-            searchButton
-                .padding()
+            if viewModel.departureStation != "" && viewModel.arrivalStation != "" {
+                searchButton
+                    .padding()
+            }
             Spacer()
         }
     }
@@ -54,13 +58,13 @@ struct MainView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 12) {
                 Spacer(minLength: 16)
-                ForEach(stories) { story in
+                ForEach(viewModel.stories) { story in
                     storyView(story: story)
                         .onTapGesture {
-                            choosedStory = story
-                            storyIsPresented = true
+                            viewModel.choosedStory = story
+                            viewModel.storyIsPresented = true
                             withAnimation {
-                                backgroundColor = .black
+                                viewModel.backgroundColor = .black
                             }
                         }
                 }
@@ -87,7 +91,8 @@ struct MainView: View {
                         .stroke(Color.ypBlue, lineWidth: 4)
                 }
             }
-        .frame(width: 92, height: 140)    }
+            .frame(width: 92, height: 140)
+    }
 
     var searchView: some View {
         ZStack {
@@ -99,23 +104,22 @@ struct MainView: View {
                         .foregroundStyle(Color.white)
                     VStack( spacing: 28) {
                         HStack {
-                            Text("Откуда")
-
-                                .foregroundStyle(Color.ypGray)
+                            Text(viewModel.departureStation == "" ? "Откуда" : viewModel.departureStation)
+                                .foregroundStyle(viewModel.departureStation == "" ? Color.ypGray : Color.ypBlack)
                             Spacer()
                         }
                         .background(.white)
                         .onTapGesture {
-                            cityCelectionIsPresented = true
+                            viewModel.selectDeparture()
                         }
                         HStack {
-                            Text("Куда")
-                                .foregroundStyle(Color.ypGray)
+                            Text(viewModel.arrivalStation == "" ? "Куда" : viewModel.arrivalStation)
+                                .foregroundStyle(viewModel.arrivalStation == "" ? Color.ypGray : Color.ypBlack)
                             Spacer()
                         }
                         .background(.white)
                         .onTapGesture {
-                            cityCelectionIsPresented = true
+                            viewModel.selectArrival()
                         }
                     }
                     .padding()
@@ -128,13 +132,17 @@ struct MainView: View {
     }
 
     var changeDirectionButton: some View {
-        Image("icСhange")
-            .padding(.trailing)
+        Button {
+            viewModel.swapCities()
+        } label: {
+            Image("icСhange")
+                .padding(.trailing)
+        }
     }
 
     var searchButton: some View {
         Button(action: {
-            routeIsPresented = true
+            viewModel.routeIsPresented = true
         }, label: {
             Text("Найти")
                 .font(.system(size: 17, weight: .bold))
@@ -150,5 +158,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainView(viewModel: MainViewViewModel(cityManager: CityManager()))
 }

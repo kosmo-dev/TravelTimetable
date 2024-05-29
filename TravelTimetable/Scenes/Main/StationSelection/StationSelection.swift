@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct StationSelection: View {
-    @Binding var modalViewIsPresented: Bool
+    
+    @ObservedObject var viewModel: StationSelectionViewModel
     @Environment(\.dismiss) private var dismiss
-    @State var searchText = ""
-
-    let list: [String] = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
-    let city: String
 
     var body: some View {
-        mainView
+        let searchBinding = Binding<String>(
+            get: { viewModel.searchText },
+            set: { viewModel.performSearch(text: $0) }
+        )
+        return mainView
             .background(.ypWhiteDL)
             .navigationTitle("Выбор станции")
             .navigationBarTitleDisplayMode(.inline)
@@ -31,24 +32,40 @@ struct StationSelection: View {
                     })
                 }
             })
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Введите запрос")
+            .searchable(text: searchBinding, placement: .navigationBarDrawer(displayMode: .always), prompt: "Введите запрос")
     }
     
+    @ViewBuilder
     var mainView: some View {
+        switch viewModel.state {
+        case .loaded:
+            stationsList
+        case .emptySearch:
+            emptySearch
+        case .serverError:
+            ServerErrorView()
+        case .noInternet:
+            NoInternetView()
+        }
+        
+    }
+    
+    var stationsList: some View {
         ScrollView {
-            ForEach(list, id: \.self) { item in
-                listRow(city: item)
+            ForEach(viewModel.visibleList, id: \.self) { item in
+                listRow(station: item)
                     .onTapGesture {
-                        modalViewIsPresented = false
+                        viewModel.chooseStaion(item)
+                        viewModel.onDismiss()
                     }
             }
         }
         .padding(.horizontal)
     }
     
-    func listRow(city: String) -> some View {
+    func listRow(station: String) -> some View {
         HStack {
-            Text(city)
+            Text(station)
                 .font(.system(size: 17))
                 .foregroundStyle(Color.ypBlackDL)
             Spacer()
@@ -58,8 +75,25 @@ struct StationSelection: View {
         .background(.ypWhiteDL)
         .padding(.vertical, 19)
     }
+    
+    var emptySearch: some View {
+        VStack {
+            Spacer()
+            HStack {
+                
+                Spacer()
+                Text("Станция не найдена")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(Color.ypBlackDL)
+                Spacer()
+                
+            }
+            Spacer()
+            
+        }
+    }
 }
 
 #Preview {
-    StationSelection(modalViewIsPresented: .constant(true), city: "Москва")
+    StationSelection(viewModel: StationSelectionViewModel(cityManager: CityManager(), cityType: .arrival, onDismiss: {}))
 }

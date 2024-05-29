@@ -9,19 +9,54 @@ import SwiftUI
 
 @main
 struct TravelTimetableApp: App {
+    enum State {
+        case splashScreen
+        case loaded
+    }
+    
+    let cityManager = CityManager()
+    
+    var viewState: State = .loaded
+    
+    @AppStorage("isDarkMode") var isDarkMode: Bool = true
+
     var body: some Scene {
         WindowGroup {
-            TabView {
-                MainView()
-                    .tabItem {
-                        Image(systemName: "arrow.up.message.fill")
-                    }
-                SettingsView()
-                    .tabItem {
-                        Image(systemName: "gearshape.fill")
-                    }
+            switch viewState {
+            case .splashScreen:
+                SplashScreen()
+            case .loaded:
+                TabView {
+                    MainView(viewModel: MainViewViewModel(cityManager: cityManager))
+                        .tabItem {
+                            Image(systemName: "arrow.up.message.fill")
+                        }
+                        .modifier(DarkModeViewModifier())
+                    SettingsView()
+                        .tabItem {
+                            Image(systemName: "gearshape.fill")
+                        }
+                        .modifier(DarkModeViewModifier())
+                }
+                .onAppear {
+                    let appearance = UITabBarAppearance()
+                    appearance.configureWithOpaqueBackground()
+                    appearance.backgroundColor = .ypWhiteDL
+                    UITabBar.appearance().scrollEdgeAppearance = appearance
+                }
+                .tint(.ypBlackDL)
             }
-            .tint(.ypBlackDL)
         }
+    }
+}
+
+public struct DarkModeViewModifier: ViewModifier {
+
+    @AppStorage("isDarkMode") var isDarkMode: Bool = false
+
+    public func body(content: Content) -> some View {
+        content
+            .environment(\.colorScheme, isDarkMode ? .dark : .light)
+            .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
