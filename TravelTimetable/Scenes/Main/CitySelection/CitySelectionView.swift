@@ -84,9 +84,15 @@ struct CitySelectionView: View {
     var emptySearch: some View {
         VStack {
             Spacer()
-            Text("Город не найден")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color.ypBlackDL)
+            HStack {
+                
+                Spacer()
+                Text("Город не найден")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(Color.ypBlackDL)
+                Spacer()
+                
+            }
             Spacer()
         }
     }

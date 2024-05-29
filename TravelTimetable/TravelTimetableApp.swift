@@ -15,9 +15,10 @@ struct TravelTimetableApp: App {
     }
     
     let cityManager = CityManager()
-    let colorSchemeManager = ColorSchemeManager()
     
     var viewState: State = .loaded
+    
+    @AppStorage("isDarkMode") var isDarkMode: Bool = true
 
     var body: some Scene {
         WindowGroup {
@@ -30,12 +31,12 @@ struct TravelTimetableApp: App {
                         .tabItem {
                             Image(systemName: "arrow.up.message.fill")
                         }
-                        .environment(\.colorScheme, colorSchemeManager.currentColorScheme)
-                    SettingsView(viewModel: SettingViewModel(colorSchemeManager: colorSchemeManager))
+                        .modifier(DarkModeViewModifier())
+                    SettingsView()
                         .tabItem {
                             Image(systemName: "gearshape.fill")
                         }
-                        .environment(\.colorScheme, colorSchemeManager.currentColorScheme)
+                        .modifier(DarkModeViewModifier())
                 }
                 .onAppear {
                     let appearance = UITabBarAppearance()
@@ -46,5 +47,16 @@ struct TravelTimetableApp: App {
                 .tint(.ypBlackDL)
             }
         }
+    }
+}
+
+public struct DarkModeViewModifier: ViewModifier {
+
+    @AppStorage("isDarkMode") var isDarkMode: Bool = false
+
+    public func body(content: Content) -> some View {
+        content
+            .environment(\.colorScheme, isDarkMode ? .dark : .light)
+            .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }

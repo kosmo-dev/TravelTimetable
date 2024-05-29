@@ -7,32 +7,28 @@
 
 import SwiftUI
 
-struct SettingsView: View {    
+struct SettingsView: View {
     
-    private var viewModel: SettingViewModel
-    
-    init(viewModel: SettingViewModel) {
-        self.viewModel = viewModel
-    }
+    @AppStorage("isDarkMode") var isDarkMode: Bool = false
+    @State private var sheetIsVisible = false
     
     var body: some View {
         mainView
             .background(.ypWhiteDL)
+            .sheet(isPresented: $sheetIsVisible) {
+                WebView(url: URL(string: "https://yandex.ru/legal/practicum_offer")!)
+            }
     }
     
     var mainView: some View {
-        let toggleBinding = Binding<Bool>(
-            get: { viewModel.colorToogleIsOn },
-            set: { viewModel.setColorScheme($0)})
-        
-        return VStack(spacing: 0) {
+        VStack(spacing: 0) {
             HStack {
                 Text("Темная тема")
                     .padding(.vertical, 19)
                     .foregroundStyle(Color.ypBlackDL)
                     .font(.system(size: 17))
                 Spacer()
-                Toggle("", isOn: toggleBinding)
+                Toggle("", isOn: $isDarkMode)
                     .tint(Color.ypBlue)
             }
             HStack {
@@ -43,6 +39,9 @@ struct SettingsView: View {
                 Spacer()
                 Image(systemName: "chevron.right")
                     .fontWeight(.bold)
+            }
+            .onTapGesture {
+                sheetIsVisible = true
             }
             Spacer()
             Text("Приложение использует API 'Яндекс.Расписания'")
@@ -59,5 +58,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(viewModel: SettingViewModel(colorSchemeManager: ColorSchemeManager()))
+    SettingsView()
 }

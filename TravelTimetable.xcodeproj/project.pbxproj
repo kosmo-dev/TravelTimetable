@@ -35,8 +35,7 @@
 		DD38EDEC2C07260300AB4886 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDEB2C07260300AB4886 /* FilterViewModel.swift */; };
 		DD38EDF02C0730F200AB4886 /* ServerErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDEF2C0730F200AB4886 /* ServerErrorView.swift */; };
 		DD38EDF32C0731CB00AB4886 /* NoInternetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDF22C0731CB00AB4886 /* NoInternetView.swift */; };
-		DD45DB902BE5357D00C702BC /* ColorSchemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD45DB8F2BE5357D00C702BC /* ColorSchemeManager.swift */; };
-		DD45DB922BE536A100C702BC /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD45DB912BE536A100C702BC /* SettingViewModel.swift */; };
+		DD38EDF62C07414E00AB4886 /* WebViewUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDF52C07414E00AB4886 /* WebViewUIKit.swift */; };
 		DD807B4F2BD806DC005BE914 /* StationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD807B4E2BD806DC005BE914 /* StationSelectionViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,8 +67,7 @@
 		DD38EDEB2C07260300AB4886 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
 		DD38EDEF2C0730F200AB4886 /* ServerErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerErrorView.swift; sourceTree = "<group>"; };
 		DD38EDF22C0731CB00AB4886 /* NoInternetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternetView.swift; sourceTree = "<group>"; };
-		DD45DB8F2BE5357D00C702BC /* ColorSchemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeManager.swift; sourceTree = "<group>"; };
-		DD45DB912BE536A100C702BC /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		DD38EDF52C07414E00AB4886 /* WebViewUIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewUIKit.swift; sourceTree = "<group>"; };
 		DD807B4E2BD806DC005BE914 /* StationSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationSelectionViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -184,7 +182,6 @@
 			isa = PBXGroup;
 			children = (
 				3D2D4ECD2BE1616C003B0F25 /* CityManager.swift */,
-				DD45DB8F2BE5357D00C702BC /* ColorSchemeManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -193,7 +190,6 @@
 			isa = PBXGroup;
 			children = (
 				3D6DC6502BBF4330008882FE /* SettingsView.swift */,
-				DD45DB912BE536A100C702BC /* SettingViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -278,6 +274,7 @@
 			children = (
 				DD38EDEF2C0730F200AB4886 /* ServerErrorView.swift */,
 				DD38EDF22C0731CB00AB4886 /* NoInternetView.swift */,
+				DD38EDF52C07414E00AB4886 /* WebViewUIKit.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -376,16 +373,15 @@
 				3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */,
 				DD38EDE92C07212400AB4886 /* RouteTitle.swift in Sources */,
 				3D6DC64F2BBF431B008882FE /* MainView.swift in Sources */,
-				DD45DB902BE5357D00C702BC /* ColorSchemeManager.swift in Sources */,
 				3DBB555A2B9ACF5D005CFAD0 /* Request.swift in Sources */,
 				3D20C9D72BC0898400B7353B /* CitySelectionView.swift in Sources */,
 				3D1946EE2BD1B14A002AB238 /* MainViewViewModel.swift in Sources */,
 				3D2C64792B91145E0066FBF6 /* TravelTimetableApp.swift in Sources */,
 				DD38EDEC2C07260300AB4886 /* FilterViewModel.swift in Sources */,
 				3D20C9E22BC0937700B7353B /* RouteListView.swift in Sources */,
-				DD45DB922BE536A100C702BC /* SettingViewModel.swift in Sources */,
 				3DF8D74E2BC16D6300099CCC /* StoryView.swift in Sources */,
 				3DBB55602B9D0340005CFAD0 /* HTTPBody+Extension.swift in Sources */,
+				DD38EDF62C07414E00AB4886 /* WebViewUIKit.swift in Sources */,
 				3DF3CAAF2B97C5C000F27668 /* NetworkService.swift in Sources */,
 				DD38EDE72C05FD4600AB4886 /* RouteListViewModel.swift in Sources */,
 				3D20C9DB2BC08A6900B7353B /* StationSelection.swift in Sources */,

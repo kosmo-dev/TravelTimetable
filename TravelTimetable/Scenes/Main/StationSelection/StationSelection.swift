@@ -79,9 +79,15 @@ struct StationSelection: View {
     var emptySearch: some View {
         VStack {
             Spacer()
-            Text("Станция не найдена")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color.ypBlackDL)
+            HStack {
+                
+                Spacer()
+                Text("Станция не найдена")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(Color.ypBlackDL)
+                Spacer()
+                
+            }
             Spacer()
             
         }
