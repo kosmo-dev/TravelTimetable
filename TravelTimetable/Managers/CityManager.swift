@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-protocol CityManagerProtocol {
+protocol CityManagerProtocol: AnyObject {
     var action: PassthroughSubject <CityManagerAction, Never> { get }
     var departureCity: String? { get }
     var departureStation: String? { get }

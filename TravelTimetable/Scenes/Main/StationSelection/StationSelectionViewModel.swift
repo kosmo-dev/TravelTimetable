@@ -26,7 +26,7 @@ final class StationSelectionViewModel: ObservableObject {
     
     var onDismiss: () -> Void
 
-    private var cityManager: CityManagerProtocol
+    private weak var cityManager: CityManagerProtocol?
     private var cityType: CityType
 
     init(cityManager: CityManagerProtocol, cityType: CityType, onDismiss: @escaping () -> Void) {
@@ -56,6 +56,6 @@ final class StationSelectionViewModel: ObservableObject {
     }
 
     func chooseStaion(_ station: String) {
-        cityManager.setStation(station, type: cityType)
+        cityManager?.setStation(station, type: cityType)
     }
 }

@@ -28,9 +28,7 @@ struct MainView: View {
                             viewModel.backgroundColor = .ypWhiteDL
                         }
                     }, content: {
-                        if let story = viewModel.choosedStory {
-                            StoryView(story: story)
-                        }
+                        try? viewModel.makeStoriesView()
                     })
             }
         case .serverError:
@@ -61,8 +59,7 @@ struct MainView: View {
                 ForEach(viewModel.stories) { story in
                     storyView(story: story)
                         .onTapGesture {
-                            viewModel.choosedStory = story
-                            viewModel.storyIsPresented = true
+                            viewModel.presentStory(story)
                             withAnimation {
                                 viewModel.backgroundColor = .black
                             }
@@ -89,6 +86,10 @@ struct MainView: View {
                     .padding(.bottom, 12)
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(Color.ypBlue, lineWidth: 4)
+                        .opacity(story.isViewed ? 0 : 1)
+                    RoundedRectangle(cornerRadius: 16)
+                        .opacity(story.isViewed ? 0.5 : 0)
+                        .foregroundStyle(.white)
                 }
             }
             .frame(width: 92, height: 140)
@@ -158,5 +159,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(viewModel: MainViewViewModel(cityManager: CityManager()))
+    MainView(viewModel: MainViewViewModel(cityManager: CityManager(), storiesManager: StoriesManager()))
 }
