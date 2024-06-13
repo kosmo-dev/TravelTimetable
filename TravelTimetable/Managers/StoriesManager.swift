@@ -22,7 +22,7 @@ enum StoriesManagerAction{
 final class StoriesManager: StoriesManagerProtocol {
     private(set) var action: PassthroughSubject<StoriesManagerAction, Never> = .init()
 
-    private(set) var stories: [Story] = Story.mock
+    private(set) var stories: [Story] = Mocks.stories
 
     func markStoryAsRead(_ story: Story) {
         if let index = stories.firstIndex(where: { $0.id == story.id }) {

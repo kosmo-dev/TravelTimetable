@@ -47,7 +47,7 @@ struct StoryView: View {
             ZStack {
                 VStack {
                     ZStack {
-                        ForEach(viewModel.stories.indices) { i in
+                        ForEach(viewModel.stories.indices, id: \.self) { i in
                             if viewModel.currentStoryIndex == i {
                                 Image(viewModel.stories[i].images[viewModel.currentImageIndex])
                                     .resizable()

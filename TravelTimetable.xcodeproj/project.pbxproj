@@ -33,6 +33,7 @@
 		3DF3CAAF2B97C5C000F27668 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3CAAE2B97C5C000F27668 /* NetworkService.swift */; };
 		3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */; };
 		3DF8D74E2BC16D6300099CCC /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8D74D2BC16D6300099CCC /* StoryView.swift */; };
+		DD10379C2C1B3208002FF1BD /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10379B2C1B3208002FF1BD /* Mocks.swift */; };
 		DD38EDE72C05FD4600AB4886 /* RouteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDE62C05FD4600AB4886 /* RouteListViewModel.swift */; };
 		DD38EDE92C07212400AB4886 /* RouteTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDE82C07212400AB4886 /* RouteTitle.swift */; };
 		DD38EDEC2C07260300AB4886 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD38EDEB2C07260300AB4886 /* FilterViewModel.swift */; };
@@ -68,6 +69,7 @@
 		3DF3CAAE2B97C5C000F27668 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		3DF8D7452BC1632700099CCC /* CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierInfoView.swift; sourceTree = "<group>"; };
 		3DF8D74D2BC16D6300099CCC /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
+		DD10379B2C1B3208002FF1BD /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		DD38EDE62C05FD4600AB4886 /* RouteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteListViewModel.swift; sourceTree = "<group>"; };
 		DD38EDE82C07212400AB4886 /* RouteTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTitle.swift; sourceTree = "<group>"; };
 		DD38EDEB2C07260300AB4886 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				3D6DC6552BBF4985008882FE /* Story.swift */,
+				DD10379B2C1B3208002FF1BD /* Mocks.swift */,
 				DD38EDE82C07212400AB4886 /* RouteTitle.swift */,
 			);
 			path = Models;
@@ -381,6 +384,7 @@
 				3D6DC6512BBF4330008882FE /* SettingsView.swift in Sources */,
 				DD807B4F2BD806DC005BE914 /* StationSelectionViewModel.swift in Sources */,
 				3DF8D7462BC1632700099CCC /* CarrierInfoView.swift in Sources */,
+				DD10379C2C1B3208002FF1BD /* Mocks.swift in Sources */,
 				3D2327652C07B719009B0679 /* StoryViewModel.swift in Sources */,
 				DD38EDE92C07212400AB4886 /* RouteTitle.swift in Sources */,
 				3D6DC64F2BBF431B008882FE /* MainView.swift in Sources */,
