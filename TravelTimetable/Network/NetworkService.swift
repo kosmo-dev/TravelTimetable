@@ -10,31 +10,35 @@ import OpenAPIURLSession
 import Foundation
 
 typealias NearestStations = Components.Schemas.StationsResponse
-typealias NearestSettlement = Components.Schemas.NearestSettlementResponse
+typealias SettlementResponse = Components.Schemas.NearestSettlementResponse
 typealias SearchRoutes = Components.Schemas.SearchResponse
 typealias Schedule = Components.Schemas.ScheduleResponse
 typealias Route = Components.Schemas.ThreadResponse
 typealias CarrierInfo = Components.Schemas.CarrierResponse
-typealias StationsList = Components.Schemas.StationsList
+typealias CountriesList = Components.Schemas.StationsList
 typealias Copyright = Components.Schemas.CopyrightInfo
 typealias CarrierSystem = Operations.getCarrierInformation.Input.Query.systemPayload
+typealias Settlement = Components.Schemas.Settlement
+typealias Country = Components.Schemas.Country
 
 typealias Carrier = Components.Schemas.Carrier
 
 protocol NetworkServiceProtocol {
     func getNearestStations(lat: Double, lng: Double, distance: Int) async throws -> NearestStations
-    func getNearestSettlement(lat: Double, lng: Double) async throws -> NearestSettlement
+    func getNearestSettlement(lat: Double, lng: Double) async throws -> SettlementResponse
     func searchRoutes(from: String, to: String, date: String?) async throws -> SearchRoutes
     func getScheduleFor(station: String, date: String?) async throws -> Schedule
     func getRoute(from: String, to: String, date: String?) async throws -> Route
     func getCarrierInfo(carrierCode: String, system: CarrierSystem) async throws -> CarrierInfo
-    func getListOfAllStations() async throws -> StationsList
+    func getListOfAllStations() async throws -> [Country]?
     func getCopyright() async throws -> Copyright
 }
 
-final class NetworkService: NetworkServiceProtocol {
+actor NetworkService: NetworkServiceProtocol {
     private let client: Client
     private let apikey: String
+    
+    private var listOFAllCitiesCache: [Components.Schemas.Country] = []
 
     init(client: Client, apikey: String) {
         self.client = client
@@ -51,7 +55,7 @@ final class NetworkService: NetworkServiceProtocol {
         return try response.ok.body.json
     }
 
-    func getNearestSettlement(lat: Double, lng: Double) async throws -> NearestSettlement {
+    func getNearestSettlement(lat: Double, lng: Double) async throws -> SettlementResponse {
         let response = try await client.getNearestSettlement(query: .init(
             apikey: apikey,
             lat: lat,
@@ -97,11 +101,15 @@ final class NetworkService: NetworkServiceProtocol {
         return try response.ok.body.json
     }
 
-    func getListOfAllStations() async throws -> StationsList {
+    func getListOfAllStations() async throws -> [Country]? {
+        guard listOFAllCitiesCache.isEmpty else { return listOFAllCitiesCache }
+        
         let response = try await client.getStationsList(query: .init(apikey: apikey))
         let httpBody = try response.ok.body.html
-        let stationList = try await httpBody.decode(to: StationsList.self)
-        return stationList
+        let stationList = try await httpBody.decode(to: CountriesList.self)
+        
+        listOFAllCitiesCache = stationList.countries ?? []
+        return stationList.countries
     }
 
     func getCopyright() async throws -> Copyright {

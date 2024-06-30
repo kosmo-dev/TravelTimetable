@@ -159,5 +159,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(viewModel: MainViewViewModel(cityManager: CityManager(), storiesManager: StoriesManager()))
+    MainView(viewModel: MainViewViewModel(cityManager: CityManager(), storiesManager: StoriesManager(), networkRequest: NetworkRequest()))
 }

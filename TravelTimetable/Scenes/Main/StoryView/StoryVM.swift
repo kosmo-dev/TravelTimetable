@@ -1,15 +1,15 @@
 //
-//  StoryViewModel.swift
+//  StoryVM.swift
 //  TravelTimetable
 //
-//  Created by Вадим Кузьмин on 29.05.2024.
+//  Created by Vadim on 30.06.2024.
 //
 
 import SwiftUI
 import Combine
 
+@MainActor
 final class StoryViewModel: ObservableObject {
-    
     @Published var progress: CGFloat = 0
     @Published var storySheetIsVisible: Bool = true
     @Published var pushEdge: Edge = .trailing
@@ -139,4 +139,5 @@ struct TimerConfiguration {
         self.progressPerTick = 1.0 / CGFloat(storiesCount) / secondsPerStory * timerTickInternal
     }
 }
+
 

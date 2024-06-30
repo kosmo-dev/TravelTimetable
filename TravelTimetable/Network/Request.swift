@@ -9,21 +9,21 @@ import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-protocol RequestProtocol {
-    func getNearestStations()
-    func searchRoutes()
-    func getScheduleForStation()
-    func getNearestSettlement()
-    func getRoute()
-    func getCarrierInfo()
-    func getListOfAllStations()
-    func getCopyright()
+protocol RequestProtocol: AnyObject {
+    func getNearestStations(coordinates: (lat: Double, lng: Double)?) async throws
+    func searchRoutes() async throws
+    func getScheduleForStation() async throws
+    func getNearestSettlement(coordinates: (lat: Double, lng: Double)?) async throws -> SettlementResponse
+    func getRoute() async throws
+    func getCarrierInfo() async throws
+    func getListOfAllStations() async throws -> [Country]?
+    func getCopyright() async throws
 }
 
-final class Request: RequestProtocol {
+actor NetworkRequest: RequestProtocol {
     let client: Client
     let network: NetworkServiceProtocol
-
+    
     init() {
         client = Client(
             serverURL: try! Servers.server1(),
@@ -34,92 +34,40 @@ final class Request: RequestProtocol {
             apikey: "a7201680-2365-4cf4-8d97-0d09cdc2a54c"
         )
     }
-
-    func getNearestStations() {
-        Task {
-            do {
-                let nearestStations = try await network.getNearestStations(lat: 55.734300, lng: 37.588230, distance: 20)
-                print(nearestStations)
-            } catch {
-                print(error)
-            }
-        }
+    
+    func getNearestStations(coordinates: (lat: Double, lng: Double)?) async throws {
+        let userCoordinates: (lat: Double, lng: Double) = coordinates ?? (lat: 55.734300, lng: 37.588230)
+        let nearestStations = try await network.getNearestStations(lat: userCoordinates.lat, lng: userCoordinates.lng, distance: 20)
     }
-
-    func searchRoutes() {
-        Task {
-            do {
-                let searchRoutes = try await network.searchRoutes(from: "c213", to: "c2", date: "2024-03-23")
-                print(searchRoutes)
-            } catch {
-                print(error)
-            }
-        }
+    
+    func searchRoutes() async throws {
+        let searchRoutes = try await network.searchRoutes(from: "c213", to: "c2", date: "2024-03-23")
+        
     }
-
-    func getScheduleForStation() {
-        Task {
-            do {
-                let schedule = try await network.getScheduleFor(station: "s2000006", date: "2024-03-23")
-                print(schedule)
-            } catch {
-                print(error)
-            }
-        }
+    
+    func getScheduleForStation() async throws {
+        let schedule = try await network.getScheduleFor(station: "s2000006", date: "2024-03-23")
     }
-
-    func getNearestSettlement() {
-        Task {
-            do {
-                let nearestSettlement = try await network.getNearestSettlement(lat: 55.734300, lng: 37.588230)
-                print(nearestSettlement)
-            } catch {
-                print(error)
-            }
-        }
+    
+    func getNearestSettlement(coordinates: (lat: Double, lng: Double)?) async throws -> SettlementResponse {
+        let userCoordinates: (lat: Double, lng: Double) = coordinates ?? (lat: 55.734300, lng: 37.588230)
+        return try await network.getNearestSettlement(lat: userCoordinates.lat, lng: userCoordinates.lng)
     }
-
-    func getRoute() {
-        Task {
-            do {
-                let route = try await network.getRoute(from: "c213", to: "c2", date: "2024-03-23")
-                print(route)
-            } catch {
-                print(error)
-            }
-        }
+    
+    func getRoute() async throws {
+        let route = try await network.getRoute(from: "c213", to: "c2", date: "2024-03-23")
+        
     }
-
-    func getCarrierInfo() {
-        Task {
-            do {
-                let carrierInfo = try await network.getCarrierInfo(carrierCode: "1", system: .yandex)
-                print(carrierInfo)
-            } catch {
-                print(error)
-            }
-        }
+    
+    func getCarrierInfo() async throws {
+        let carrierInfo = try await network.getCarrierInfo(carrierCode: "1", system: .yandex)
     }
-
-    func getListOfAllStations() {
-        Task {
-            do {
-                let listOfAllStations = try await network.getListOfAllStations()
-                print(listOfAllStations)
-            } catch {
-                print(error)
-            }
-        }
+    
+    func getListOfAllStations() async throws -> [Country]? {
+        try await network.getListOfAllStations()
     }
-
-    func getCopyright() {
-        Task {
-            do {
-                let copyright = try await network.getCopyright()
-                print(copyright)
-            } catch {
-                print(error)
-            }
-        }
+    
+    func getCopyright() async throws {
+        let copyright = try await network.getCopyright()
     }
 }

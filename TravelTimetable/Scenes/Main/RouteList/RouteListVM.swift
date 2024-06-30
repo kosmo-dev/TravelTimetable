@@ -1,8 +1,8 @@
 //
-//  RouteListViewModel.swift
+//  RouteListVM.swift
 //  TravelTimetable
 //
-//  Created by Vadim on 28.05.2024.
+//  Created by Vadim on 30.06.2024.
 //
 
 import Foundation

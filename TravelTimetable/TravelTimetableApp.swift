@@ -16,6 +16,7 @@ struct TravelTimetableApp: App {
     
     let cityManager = CityManager()
     let storiesManager = StoriesManager()
+    let networkRequest = NetworkRequest()
 
     var viewState: State = .loaded
     
@@ -28,7 +29,7 @@ struct TravelTimetableApp: App {
                 SplashScreen()
             case .loaded:
                 TabView {
-                    MainView(viewModel: MainViewViewModel(cityManager: cityManager, storiesManager: storiesManager))
+                    MainView(viewModel: MainViewViewModel(cityManager: cityManager, storiesManager: storiesManager, networkRequest: networkRequest))
                         .tabItem {
                             Image(systemName: "arrow.up.message.fill")
                         }

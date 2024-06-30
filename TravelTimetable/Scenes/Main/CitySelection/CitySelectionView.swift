@@ -39,6 +39,9 @@ struct CitySelectionView: View {
                     }
                 })
                 .searchable(text: searchBinding, prompt: "Введите запрос")
+                .task {
+                    await viewModel.fetchAllCitis()
+                }
         }
     }
 
@@ -53,17 +56,23 @@ struct CitySelectionView: View {
             ServerErrorView()
         case .noInternet:
             NoInternetView()
+        case .loading:
+            ProgressView()
         }
     }
 
     var citiesList: some View {
         ScrollView {
-            ForEach(viewModel.visibleList, id: \.self) { item in
-                listRow(city: item)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        viewModel.showStationSelection(selectedCity: item)
+            LazyVStack {
+                ForEach(viewModel.visibleList, id: \.self) { item in
+                    if let title = item.title {
+                        listRow(city: title)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                viewModel.showStationSelection(selectedCity: title)
+                            }
                     }
+                }
             }
         }
         .padding(.horizontal)
@@ -99,5 +108,5 @@ struct CitySelectionView: View {
 }
 
 #Preview {
-    CitySelectionView(viewModel: CitySelectionViewModel(cityManager: CityManager(), cityType: .arrival, onDismiss: {}))
+    CitySelectionView(viewModel: CitySelectionViewModel(cityManager: CityManager(), cityType: .arrival, networkRequest: NetworkRequest(), onDismiss: {}))
 }
