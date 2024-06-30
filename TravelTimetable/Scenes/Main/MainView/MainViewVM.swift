@@ -21,7 +21,7 @@ final class MainViewViewModel: ObservableObject {
         case serverError
         case noInternet
     }
-
+    
     @Published var departureStation: String = ""
     @Published var arrivalStation: String = ""
     @Published var cityCelectionIsPresented = false
@@ -30,18 +30,18 @@ final class MainViewViewModel: ObservableObject {
     @Published var choosedStory: Story?
     @Published var backgroundColor: Color = .ypWhiteDL
     @Published var viewState: State = .loaded
-
+    
     var stories: [Story] {
         guard let storiesManager else { return [] }
         return storiesManager.stories
     }
-
+    
     private weak var cityManager: CityManagerProtocol?
     private weak var storiesManager: StoriesManagerProtocol?
     private weak var networkRequest: RequestProtocol?
     private var cityType: CityType?
     private var cancellables: [AnyCancellable] = []
-
+    
     init(cityManager: CityManagerProtocol, storiesManager: StoriesManagerProtocol, networkRequest: RequestProtocol) {
         self.cityManager = cityManager
         self.storiesManager = storiesManager
@@ -59,21 +59,21 @@ final class MainViewViewModel: ObservableObject {
         choosedStory = story
         storyIsPresented = true
     }
-
+    
     func swapCities() {
         cityManager?.swapCities()
     }
-
+    
     func selectDeparture() {
         cityType = .departure
         cityCelectionIsPresented = true
     }
-
+    
     func selectArrival() {
         cityType = .arrival
         cityCelectionIsPresented = true
     }
-
+    
     func makeCitySelectionView() throws -> CitySelectionView {
         guard let cityType,
               let cityManager,
@@ -92,7 +92,7 @@ final class MainViewViewModel: ObservableObject {
         else { throw Errors.unableMakeRouteListView }
         return RouteListView(viewModel: RouteListViewModel(routeTitle: RouteTitle(departureCity: departureCity, departureStation: departureStation, arrivalCity: arrivalCity, arrivalStation: arrivalStation), routes: RoutesMock.mock))
     }
-
+    
     func makeStoriesView() throws -> StoryView {
         guard let currentStoryIndex = stories.firstIndex(where: { $0.id == choosedStory?.id }),
               let storiesManager
@@ -107,14 +107,16 @@ final class MainViewViewModel: ObservableObject {
 
 private extension MainViewViewModel {
     func getSelectedCities() {
-        if let depCity = cityManager?.departureCity, let depStation = cityManager?.departureStation {
-            departureStation = "\(depCity) (\(depStation)"
+        if let depCity = cityManager?.departureCity?.title,
+           let depStation = cityManager?.departureStation?.title {
+            departureStation = "\(depCity) (\(depStation))"
         } else {
             departureStation = ""
         }
-
-        if let arrCity = cityManager?.arrivalCity, let arrStation = cityManager?.arrivalStation {
-            arrivalStation = "\(arrCity) (\(arrStation)"
+        
+        if let arrCity = cityManager?.arrivalCity?.title,
+           let arrStation = cityManager?.arrivalStation?.title {
+            arrivalStation = "\(arrCity) (\(arrStation))"
         } else {
             arrivalStation = ""
         }

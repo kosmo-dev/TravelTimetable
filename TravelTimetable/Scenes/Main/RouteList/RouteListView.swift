@@ -10,7 +10,7 @@ import SwiftUI
 struct RouteListView: View {
     @ObservedObject var viewModel: RouteListViewModel
     @Environment(\.dismiss) private var dismiss
-
+    
     var body: some View {
         NavigationView {
             mainView
@@ -28,7 +28,7 @@ struct RouteListView: View {
                 })
         }
     }
-
+    
     @ViewBuilder
     var mainView: some View {
         switch viewModel.state {
@@ -67,17 +67,24 @@ struct RouteListView: View {
             Spacer()
         }
     }
-
+    
+    @ViewBuilder
     var routeTitle: some View {
-        Text("\(viewModel.routeTitle.departureCity) (\(viewModel.routeTitle.departureStation)) ")
-            .font(.system(size: 24, weight: .bold))
-            .foregroundColor(Color.ypBlackDL)
-        + Text(Image(systemName: "arrow.right"))
-        + Text(" \(viewModel.routeTitle.arrivalCity) (\(viewModel.routeTitle.arrivalStation))")
-            .font(.system(size: 24, weight: .bold))
-            .foregroundColor(Color.ypBlackDL)
+        if let depCity = viewModel.routeTitle.departureCity.title,
+              let depStation = viewModel.routeTitle.departureStation.title,
+              let arrCity = viewModel.routeTitle.arrivalCity.title,
+              let arrStation = viewModel.routeTitle.arrivalStation.title
+        {
+            Text("\(depCity) (\(depStation)) ")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(Color.ypBlackDL)
+            + Text(Image(systemName: "arrow.right"))
+            + Text(" \(arrCity) (\(arrStation))")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(Color.ypBlackDL)
+        }
     }
-
+    
     var list: some View {
         ScrollView(showsIndicators: false) {
             ForEach(viewModel.routes, id: \.uid) { route in
@@ -92,65 +99,65 @@ struct RouteListView: View {
             Spacer(minLength: 100)
         }
     }
-
+    
     func listRow(_ route: Route) -> some View {
         VStack {
-
+            
             HStack {
-
+                
                 Image("MockCarrierIcon")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 38, height: 38)
-
+                
                 VStack(alignment: .leading) {
-
+                    
                     HStack(alignment: .top) {
-
+                        
                         Text(route.carrier?.title ?? "")
                             .font(.system(size: 17))
                             .foregroundStyle(Color.ypBlack)
-
+                        
                         Spacer()
-
+                        
                         Text(route.arrival_date ?? "")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.ypBlack)
-
+                        
                     }
-
+                    
                     if let stop = route.stops?.first?.station?.title {
                         Text("С пересадкой в \(stop)")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.ypRed)
                     }
-
+                    
                 }
             }
-
+            
             HStack {
-
+                
                 Text(route.interval?.begin_time ?? "")
                     .font(.system(size: 17))
                     .foregroundStyle(Color.ypBlack)
-
+                
                 Rectangle()
                     .foregroundStyle(Color.ypGray)
                     .frame(height: 1)
-
+                
                 Text(route.interval?.density ?? "")
                     .font(.system(size: 12))
                     .foregroundStyle(Color.ypBlack)
-
+                
                 Rectangle()
                     .foregroundStyle(Color.ypGray)
                     .frame(height: 1)
-
+                
                 Text(route.interval?.end_time ?? "")
                     .font(.system(size: 17))
                     .foregroundStyle(Color.ypBlack)
-
-
+                
+                
             }
         }
         .padding(14)
@@ -159,7 +166,7 @@ struct RouteListView: View {
                 .foregroundStyle(Color.ypLightGray)
         )
     }
-
+    
     var filterButton: some View {
         NavigationLink {
             viewModel.makeFilterView()
@@ -167,7 +174,7 @@ struct RouteListView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
                     .foregroundStyle(Color.ypBlue)
-
+                
                 HStack {
                     Spacer()
                     Text("Уточнить время")
@@ -188,5 +195,5 @@ struct RouteListView: View {
 }
 
 #Preview {
-    RouteListView(viewModel: RouteListViewModel(routeTitle: RouteTitle(departureCity: "Moscow", departureStation: "station", arrivalCity: "Saint Petersburg", arrivalStation: "station"), routes: RoutesMock.mock))
+    RouteListView(viewModel: RouteListViewModel(routeTitle: RouteTitle(departureCity: Settlement(title: "Moscow"), departureStation: Station(title: "station"), arrivalCity: Settlement(title: "Saint Petersburg"), arrivalStation: Station(title: "station")), routes: RoutesMock.mock))
 }

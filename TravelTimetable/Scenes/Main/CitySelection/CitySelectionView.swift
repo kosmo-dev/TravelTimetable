@@ -62,14 +62,14 @@ struct CitySelectionView: View {
     }
 
     var citiesList: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             LazyVStack {
                 ForEach(viewModel.visibleList, id: \.self) { item in
                     if let title = item.title {
                         listRow(city: title)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                viewModel.showStationSelection(selectedCity: title)
+                                viewModel.showStationSelection(selectedCity: item)
                             }
                     }
                 }

@@ -20,6 +20,7 @@ typealias Copyright = Components.Schemas.CopyrightInfo
 typealias CarrierSystem = Operations.getCarrierInformation.Input.Query.systemPayload
 typealias Settlement = Components.Schemas.Settlement
 typealias Country = Components.Schemas.Country
+typealias Station = Components.Schemas.Stations
 
 typealias Carrier = Components.Schemas.Carrier
 

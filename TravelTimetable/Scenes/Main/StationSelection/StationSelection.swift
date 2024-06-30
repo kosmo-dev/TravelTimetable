@@ -33,6 +33,9 @@ struct StationSelection: View {
                 }
             })
             .searchable(text: searchBinding, placement: .navigationBarDrawer(displayMode: .always), prompt: "Введите запрос")
+            .onAppear {
+                viewModel.onAppear()
+            }
     }
     
     @ViewBuilder
@@ -51,13 +54,17 @@ struct StationSelection: View {
     }
     
     var stationsList: some View {
-        ScrollView {
-            ForEach(viewModel.visibleList, id: \.self) { item in
-                listRow(station: item)
-                    .onTapGesture {
-                        viewModel.chooseStaion(item)
-                        viewModel.onDismiss()
+        ScrollView(showsIndicators: false) {
+            LazyVStack {
+                ForEach(viewModel.visibleList, id: \.self) { item in
+                    if let title = item.title {
+                        listRow(station: title)
+                            .onTapGesture {
+                                viewModel.chooseStaion(item)
+                                viewModel.onDismiss()
+                            }
                     }
+                }
             }
         }
         .padding(.horizontal)

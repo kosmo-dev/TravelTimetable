@@ -10,13 +10,13 @@ import Combine
 
 protocol CityManagerProtocol: AnyObject {
     var action: PassthroughSubject <CityManagerAction, Never> { get }
-    var departureCity: String? { get }
-    var departureStation: String? { get }
-    var arrivalCity: String? { get }
-    var arrivalStation: String? { get }
+    var departureCity: Settlement? { get }
+    var departureStation: Station? { get }
+    var arrivalCity: Settlement? { get }
+    var arrivalStation: Station? { get }
 
-    func setCity(_ city: String, type: CityType)
-    func setStation(_ station: String, type: CityType)
+    func setCity(_ city: Settlement, type: CityType)
+    func setStation(_ station: Station, type: CityType)
     func swapCities()
 }
 
@@ -31,12 +31,12 @@ enum CityType {
 
 final class CityManager: CityManagerProtocol {
     private(set) var action: PassthroughSubject<CityManagerAction, Never> = .init()
-    private(set) var departureCity: String?
-    private(set) var departureStation: String?
-    private(set) var arrivalCity: String?
-    private(set) var arrivalStation: String?
+    private(set) var departureCity: Settlement?
+    private(set) var departureStation: Station?
+    private(set) var arrivalCity: Settlement?
+    private(set) var arrivalStation: Station?
 
-    func setCity(_ city: String, type: CityType) {
+    func setCity(_ city: Settlement, type: CityType) {
         switch type {
         case .arrival:
             arrivalCity = city
@@ -46,7 +46,7 @@ final class CityManager: CityManagerProtocol {
         action.send(.citiesNeedUpdate)
     }
 
-    func setStation(_ station: String, type: CityType) {
+    func setStation(_ station: Station, type: CityType) {
         switch type {
         case .arrival:
             arrivalStation = station

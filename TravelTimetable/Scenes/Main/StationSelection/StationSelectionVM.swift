@@ -17,12 +17,12 @@ final class StationSelectionViewModel: ObservableObject {
     
     @Published var state: State = .loaded
     @Published var searchText = ""
-    @Published var visibleList: [String] {
+    @Published var visibleList: [Station] = [] {
         didSet {
             checkAndChangeState()
         }
     }
-    private var list: [String] = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
+    private var list: [Station] = []
     
     var onDismiss: () -> Void
 
@@ -33,6 +33,10 @@ final class StationSelectionViewModel: ObservableObject {
         self.onDismiss = onDismiss
         self.cityManager = cityManager
         self.cityType = cityType
+    }
+    
+    func onAppear() {
+        list = makeStationList()
         visibleList = list
     }
     
@@ -43,8 +47,10 @@ final class StationSelectionViewModel: ObservableObject {
             visibleList = list
             return
         }
-
-        visibleList = list.filter { $0.lowercased().contains(text.lowercased()) }
+        visibleList = list.filter({ station in
+            guard let title = station.title else { return false }
+            return title.lowercased().contains(text.lowercased())
+        })
     }
 
     func checkAndChangeState() {
@@ -55,7 +61,18 @@ final class StationSelectionViewModel: ObservableObject {
         }
     }
 
-    func chooseStaion(_ station: String) {
+    func chooseStaion(_ station: Station) {
         cityManager?.setStation(station, type: cityType)
+    }
+}
+
+extension StationSelectionViewModel {
+    private func makeStationList() -> [Station] {
+        switch cityType {
+        case .arrival:
+            return cityManager?.arrivalCity?.stations ?? []
+        case .departure:
+            return cityManager?.departureCity?.stations ?? []
+        }
     }
 }

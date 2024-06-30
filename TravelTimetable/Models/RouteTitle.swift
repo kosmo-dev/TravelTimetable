@@ -8,8 +8,8 @@
 import Foundation
 
 struct RouteTitle {
-    let departureCity: String
-    let departureStation: String
-    let arrivalCity: String
-    let arrivalStation: String
+    let departureCity: Settlement
+    let departureStation: Station
+    let arrivalCity: Settlement
+    let arrivalStation: Station
 }

@@ -36,7 +36,6 @@ final class CitySelectionViewModel: ObservableObject {
     var onDismiss: () -> Void
     
     private var list: [Settlement] = []
-    private var selectedCity: String = ""
 
     private weak var cityManager: CityManagerProtocol?
     private weak var networkRequest: RequestProtocol?
@@ -96,9 +95,8 @@ final class CitySelectionViewModel: ObservableObject {
         }
     }
     
-    func showStationSelection(selectedCity: String) {
+    func showStationSelection(selectedCity: Settlement) {
         cityManager?.setCity(selectedCity, type: cityType)
-        self.selectedCity = selectedCity
         path.append(.stationSelection)
     }
     
