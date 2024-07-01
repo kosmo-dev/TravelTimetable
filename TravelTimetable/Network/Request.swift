@@ -11,10 +11,10 @@ import OpenAPIURLSession
 
 protocol RequestProtocol: AnyObject {
     func getNearestStations(coordinates: (lat: Double, lng: Double)?) async throws
-    func searchRoutes() async throws
+    func searchRoutes(from: String, to: String) async throws -> SearchRoutes
     func getScheduleForStation() async throws
     func getNearestSettlement(coordinates: (lat: Double, lng: Double)?) async throws -> SettlementResponse
-    func getRoute() async throws
+    func getRoute() async throws -> Route
     func getCarrierInfo() async throws
     func getListOfAllStations() async throws -> [Country]?
     func getCopyright() async throws
@@ -40,9 +40,8 @@ actor NetworkRequest: RequestProtocol {
         let nearestStations = try await network.getNearestStations(lat: userCoordinates.lat, lng: userCoordinates.lng, distance: 20)
     }
     
-    func searchRoutes() async throws {
-        let searchRoutes = try await network.searchRoutes(from: "c213", to: "c2", date: "2024-03-23")
-        
+    func searchRoutes(from: String, to: String) async throws -> SearchRoutes {
+        try await network.searchRoutes(from: from, to: to, date: "2024-03-23")
     }
     
     func getScheduleForStation() async throws {
@@ -54,9 +53,8 @@ actor NetworkRequest: RequestProtocol {
         return try await network.getNearestSettlement(lat: userCoordinates.lat, lng: userCoordinates.lng)
     }
     
-    func getRoute() async throws {
-        let route = try await network.getRoute(from: "c213", to: "c2", date: "2024-03-23")
-        
+    func getRoute() async throws -> Route {
+        try await network.getRoute(from: "c213", to: "c2", date: "2024-03-23")
     }
     
     func getCarrierInfo() async throws {

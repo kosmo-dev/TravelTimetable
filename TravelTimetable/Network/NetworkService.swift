@@ -21,6 +21,7 @@ typealias CarrierSystem = Operations.getCarrierInformation.Input.Query.systemPay
 typealias Settlement = Components.Schemas.Settlement
 typealias Country = Components.Schemas.Country
 typealias Station = Components.Schemas.Stations
+typealias Segment = Components.Schemas.Segment
 
 typealias Carrier = Components.Schemas.Carrier
 

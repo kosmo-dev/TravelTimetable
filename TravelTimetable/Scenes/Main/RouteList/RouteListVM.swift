@@ -23,12 +23,16 @@ final class RouteListViewModel: ObservableObject {
     
     @Published var state: State = .loaded
     @Published var routeTitle: RouteTitle
-    @Published var routes: [Route]
+    @Published var segments: [Segment] = []
     @Published var filterButtonState: FilterButtonState = .none
     
-    init(routeTitle: RouteTitle, routes: [Route]) {
+    private weak var networkRequest: RequestProtocol?
+    private weak var cityManager: CityManager?
+    
+    init(routeTitle: RouteTitle, networkRequest: RequestProtocol, cityManager: CityManager) {
         self.routeTitle = routeTitle
-        self.routes = routes
+        self.networkRequest = networkRequest
+        self.cityManager = cityManager
     }
     
     func makeFilterView() -> FilterView {
@@ -36,6 +40,16 @@ final class RouteListViewModel: ObservableObject {
             self?.filterButtonState = .withFilter
         }
         return FilterView(viewModel: filterViewModel)
+    }
+    
+    func searchRoutes() async {
+        guard let depStationCode = cityManager?.departureStation?.codes?.yandex_code,
+              let arrStationCode = cityManager?.arrivalStation?.codes?.yandex_code
+        else { return }
+        let route = try? await networkRequest?.searchRoutes(from: depStationCode, to: arrStationCode)
+        if let segments = route?.segments {
+            self.segments = segments
+        }
     }
 }
 

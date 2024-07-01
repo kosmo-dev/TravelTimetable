@@ -26,6 +26,9 @@ struct RouteListView: View {
                         })
                     }
                 })
+                .task {
+                    await viewModel.searchRoutes()
+                }
         }
     }
     
@@ -87,20 +90,22 @@ struct RouteListView: View {
     
     var list: some View {
         ScrollView(showsIndicators: false) {
-            ForEach(viewModel.routes, id: \.uid) { route in
-                NavigationLink {
-                    if let carrier = route.carrier {
-                        CarrierInfoView(carrier: carrier)
+            LazyVStack {
+                ForEach(viewModel.segments, id: \.hashValue) { segment in
+                    NavigationLink {
+                        if let carrier = segment.thread?.carrier {
+                            CarrierInfoView(carrier: carrier)
+                        }
+                    } label: {
+                        listRow(segment)
                     }
-                } label: {
-                    listRow(route)
                 }
             }
             Spacer(minLength: 100)
         }
     }
     
-    func listRow(_ route: Route) -> some View {
+    func listRow(_ segment: Segment) -> some View {
         VStack {
             
             HStack {
@@ -114,19 +119,19 @@ struct RouteListView: View {
                     
                     HStack(alignment: .top) {
                         
-                        Text(route.carrier?.title ?? "")
+                        Text(segment.thread?.carrier?.title ?? "")
                             .font(.system(size: 17))
                             .foregroundStyle(Color.ypBlack)
                         
                         Spacer()
                         
-                        Text(route.arrival_date ?? "")
+                        Text(segment.arrival ?? "")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.ypBlack)
                         
                     }
                     
-                    if let stop = route.stops?.first?.station?.title {
+                    if let stop = segment. route.stops?.first?.station?.title {
                         Text("С пересадкой в \(stop)")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.ypRed)
@@ -195,5 +200,16 @@ struct RouteListView: View {
 }
 
 #Preview {
-    RouteListView(viewModel: RouteListViewModel(routeTitle: RouteTitle(departureCity: Settlement(title: "Moscow"), departureStation: Station(title: "station"), arrivalCity: Settlement(title: "Saint Petersburg"), arrivalStation: Station(title: "station")), routes: RoutesMock.mock))
+    RouteListView(
+        viewModel: RouteListViewModel(
+            routeTitle: RouteTitle(
+                departureCity: Settlement(title: "Moscow"),
+                departureStation: Station(title: "station"),
+                arrivalCity: Settlement(title: "Saint Petersburg"),
+                arrivalStation: Station(title: "station")
+            ),
+            networkRequest: NetworkRequest(),
+            cityManager: CityManager()
+        )
+    )
 }
